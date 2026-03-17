@@ -6,35 +6,35 @@
 window.sectionSchema = {
     "detailed_list": {
         "name": "Detailed List",
-        "description": "Block with heading, date, role/subheading, and optional bullet points.",
+        "description": "Block with heading, date, sub-heading, and optional bullet points.",
         "itemKey": "entries",
         "defaultItem": {
-            "organization": "Heading",
+            "heading": "Heading",
             "date": "Date",
-            "role": "Subheading",
+            "subheading": "Sub-heading",
             "bullets": ["New bullet point"]
         },
         "hasBullets": true
     },
     "table_3col": {
         "name": "3-Column Table",
-        "description": "Tabular layout with three columns (e.g., for Education).",
+        "description": "Tabular layout with three columns (e.g., for Education or Awards).",
         "itemKey": "entries",
         "defaultItem": {
-            "institution": "Column 1 (Left)",
-            "details": "Column 2 (Center)",
-            "date": "Column 3 (Right)"
+            "col1": "Column 1",
+            "col2": "Column 2",
+            "col3": "Column 3"
         },
         "hasBullets": false
     },
     "simple_list": {
         "name": "Simple List",
-        "description": "Block with heading, tag/subheading, and description (no bullets).",
+        "description": "Block with heading, sub-heading, and description (no bullets).",
         "itemKey": "entries",
         "defaultItem": {
-            "name": "Heading",
-            "tag": "Subheading/Tag",
-            "description": "Basic description text..."
+            "heading": "Heading",
+            "subheading": "Sub-heading",
+            "description": "Description text..."
         },
         "hasBullets": false
     },
@@ -59,7 +59,8 @@ window.sectionSchema = {
         "name": "Paragraph",
         "description": "A simple standalone block of text.",
         "itemKey": "content",
-        "defaultItem": "", // Paragraph section has a direct "content" string usually, or array of strings
-        "isSingleText": true
+        "defaultItem": "New paragraph text...",
+        "isSingleText": true,
+        "hideTitle": true
     }
 };

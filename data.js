@@ -1,5 +1,3 @@
-// RESUME DATA: Edit content below. 
-// For layout definitions and adding new section types, see SCHEMA.md and src/js/schema.js
 window.resumeDataRes = {
     "metadata": {
         "name": "Ibrahim Khalil",
@@ -34,19 +32,19 @@ window.resumeDataRes = {
             "title": "Education",
             "entries": [
                 {
-                    "institution": "Ashoka University",
-                    "details": "B.Sc Computer Science & Entrepreneurial Leadership — CGPA: 3.58 / 4",
-                    "date": "2022 – 2026"
+                    "col1": "Ashoka University",
+                    "col2": "B.Sc Computer Science & Entrepreneurial Leadership — CGPA: 3.58 / 4",
+                    "col3": "2022 – 2026"
                 },
                 {
-                    "institution": "St. Xavier's College",
-                    "details": "Maharashtra State Board (Class XII)",
-                    "date": "2020 – 2022"
+                    "col1": "St. Xavier's College",
+                    "col2": "Maharashtra State Board (Class XII)",
+                    "col3": "2020 – 2022"
                 },
                 {
-                    "institution": "St. Stanislaus High School",
-                    "details": "Maharashtra State Board (Class X)",
-                    "date": "2020"
+                    "col1": "St. Stanislaus High School",
+                    "col2": "Maharashtra State Board (Class X)",
+                    "col3": "2020"
                 }
             ]
         },
@@ -55,9 +53,9 @@ window.resumeDataRes = {
             "title": "Professional Experience",
             "entries": [
                 {
-                    "organization": "OutThink",
+                    "heading": "OutThink",
                     "date": "Jul 2025 – Present",
-                    "role": "Product Manager",
+                    "subheading": "Product Manager",
                     "bullets": [
                         "PM for <strong>Real-Time Threats (RTT)</strong>, driving cross-functional delivery with engineers, designers and QA; responsible for roadmap and launch of the company's first production feature reaching <strong>100+ enterprise customers</strong>.",
                         "Shipped <strong>PhishSignal</strong>, a live Chrome extension countering phishing manipulation; owned idea → launch in <strong>&lt;6 weeks</strong>, ran user tests with 10–20 early users and coordinated marketing driving <strong>~1,000+ impressions</strong>.",
@@ -68,18 +66,18 @@ window.resumeDataRes = {
                     ]
                 },
                 {
-                    "organization": "Bombay Stock Exchange (BSE)",
+                    "heading": "Bombay Stock Exchange (BSE)",
                     "date": "May 2022 – Jul 2022",
-                    "role": "Cybersecurity Policy & Risk Intern",
+                    "subheading": "Cybersecurity Policy & Risk Intern",
                     "bullets": [
                         "Evaluated cybersecurity governance policies and contributed to <strong>risk assessment frameworks</strong> across enterprise systems.",
                         "Analyzed honeypot security solutions across <strong>5+ vendor architectures</strong> and participated in consulting discussions with outsourced security teams."
                     ]
                 },
                 {
-                    "organization": "Sequretek",
+                    "heading": "Sequretek",
                     "date": "Dec 2022 – Jan 2023",
-                    "role": "Malware Analyst & Research Intern",
+                    "subheading": "Malware Analyst & Research Intern",
                     "bullets": [
                         "Built and deployed <strong>real-time honeypot threat intelligence tools</strong>, logging <strong>1,000+ attack attempts</strong> and analyzing attacker behaviour patterns.",
                         "Developed a <strong>REST API</strong> to aggregate and visualize geographical phishing attack data for cybersecurity analysis."
@@ -92,35 +90,35 @@ window.resumeDataRes = {
             "title": "Social Impact & Policy Work",
             "entries": [
                 {
-                    "organization": "Sarfaroshi Foundation",
+                    "heading": "Sarfaroshi Foundation",
                     "date": "May 2023 – Jul 2023",
-                    "role": "Research Fellow",
+                    "subheading": "Research Fellow",
                     "bullets": [
                         "Conducted <strong>55+ qualitative interviews</strong> in Kairana for a socio-economic field study, producing a baseline demographic knowledge report at district and parliamentary levels.",
                         "Worked with district officials — Magistrate, Chief Development Officer and Election Commission representatives — to access data and propose policy recommendations."
                     ]
                 },
                 {
-                    "organization": "Jan Jagran Shakti Sangathan",
+                    "heading": "Jan Jagran Shakti Sangathan",
                     "date": "Jun 2024",
-                    "role": "Field Researcher",
+                    "subheading": "Field Researcher",
                     "bullets": [
                         "Conducted field research across <strong>200+ households</strong> in <strong>9 villages across 2 districts in Bihar</strong>, studying employment in Dalit communities and access to public welfare schemes.",
                         "Worked with grassroots unions to organize workers and advocate for labour rights through data-driven workshops."
                     ]
                 },
                 {
-                    "organization": "NITI Aayog",
+                    "heading": "NITI Aayog",
                     "date": "May 2024 – Jun 2024",
-                    "role": "Policy Researcher",
+                    "subheading": "Policy Researcher",
                     "bullets": [
                         "Contributed to a policy white paper on <strong>Health Tech in India</strong> under the Vice Chairperson's office, synthesizing insights from <strong>15+ national reports</strong>."
                     ]
                 },
                 {
-                    "organization": "SaveLife Foundation",
+                    "heading": "SaveLife Foundation",
                     "date": "Jul 2023 – Aug 2023",
-                    "role": "Data & Policy Intern",
+                    "subheading": "Data & Policy Intern",
                     "bullets": [
                         "Analyzed <strong>200+ hours of highway CCTV footage</strong> to identify road safety violations and propose policy interventions.",
                         "Built internal software tools for crash investigation datasets enabling <strong>fast natural-language queries</strong> for government policy meetings."
@@ -133,9 +131,9 @@ window.resumeDataRes = {
             "title": "Leadership & Positions Held",
             "entries": [
                 {
-                    "organization": "Ministry of Technology, Ashoka University Student Government",
+                    "heading": "Ministry of Technology, Ashoka University Student Government",
                     "date": "May 2024 – May 2025",
-                    "role": "Minister ← Deputy Minister of Technology",
+                    "subheading": "Minister ← Deputy Minister of Technology",
                     "bullets": [
                         "Developed and spearheaded Ashoka's <strong>first university-wide student engagement platform</strong>, onboarding <strong>3,645+ users</strong> and facilitating 1,360+ cab requests, 1,045+ course reviews, and 200+ pool subscriptions.",
                         "Leading the mailroom project to digitize parcels in and out (~600+ parcels every day) to reduce staff hours, orphan packages, and inefficiencies by <strong>40%</strong>.",
@@ -143,9 +141,9 @@ window.resumeDataRes = {
                     ]
                 },
                 {
-                    "organization": "Placement Committee, Career Development Office",
+                    "heading": "Placement Committee, Career Development Office",
                     "date": "Dec 2023 – Jul 2024",
-                    "role": "Projects and Collaborations Head",
+                    "subheading": "Projects and Collaborations Head",
                     "bullets": [
                         "Built <strong>Duperset</strong>, a Chrome extension with <strong>900+ users</strong>, and developed a custom website consolidating placement tools used by <strong>3,500+ students</strong> across the university.",
                         "Developed resume-verification APIs to streamline internal admin processes using Google Apps Script, supporting structured data workflows for <strong>200+ recruiting companies</strong>.",
@@ -153,25 +151,25 @@ window.resumeDataRes = {
                     ]
                 },
                 {
-                    "organization": "Ashoka University Election Commission",
+                    "heading": "Ashoka University Election Commission",
                     "date": "May 2024 – Oct 2024",
-                    "role": "Chief Technology Officer",
+                    "subheading": "Chief Technology Officer",
                     "bullets": [
                         "Designed and deployed a secure, transparent, and independently verifiable election platform for <strong>2,800+ students</strong>, recording <strong>1,300+ votes with 0% error</strong>. Conducted Ashoka Student Government's first digital election on a custom-built platform."
                     ]
                 },
                 {
-                    "organization": "Computer Science Department, Ashoka University",
+                    "heading": "Computer Science Department, Ashoka University",
                     "date": "May 2025 – May 2026",
-                    "role": "Undergraduate Student Representative",
+                    "subheading": "Undergraduate Student Representative",
                     "bullets": [
                         "Elected Student Representative among 10 candidates, representing <strong>300+ undergraduate students</strong> across Computer Science and CS-interdisciplinary majors."
                     ]
                 },
                 {
-                    "organization": "Ashoka University",
+                    "heading": "Ashoka University",
                     "date": "Mar 2023 – Sep 2024",
-                    "role": "Head of Technology",
+                    "subheading": "Head of Technology",
                     "bullets": [
                         "Led digital initiatives for <strong>TEDxAshoka</strong> and 6+ student societies/fests, improving operational efficiency and digital accessibility by 30%.",
                         "Engineered a <strong>Gamified Digital Treasure Hunt</strong> for 300+ student participants.",
@@ -179,9 +177,9 @@ window.resumeDataRes = {
                     ]
                 },
                 {
-                    "organization": "Inky Parchments",
+                    "heading": "Inky Parchments",
                     "date": "Mar 2023 – Sep 2024",
-                    "role": "Founder & President, Platform Lead",
+                    "subheading": "Founder & President, Platform Lead",
                     "bullets": [
                         "Built a student-run literary platform that published <strong>300+ literary pieces</strong> from <strong>80+ contributors</strong> across diverse backgrounds."
                     ]
@@ -193,33 +191,33 @@ window.resumeDataRes = {
             "title": "Software Projects & Freelance",
             "entries": [
                 {
-                    "organization": "Ashoka Marketplace",
+                    "heading": "Ashoka Marketplace",
                     "bullets": [
                         "Full-stack web app using <strong>TypeScript (BE)</strong>, <strong>Next.js</strong>, APIs; multi-vendor e-commerce for Ashoka University.",
                         "Users can own/manage multiple vendors, create unlimited listings with stock/on-demand inventory types, and maintain wishlists. Single sign-on with Google authentication."
                     ]
                 },
                 {
-                    "organization": "Center for Translation",
+                    "heading": "Center for Translation",
                     "bullets": [
                         "Search engine for Ashoka University's Portal of Translated Literatures.",
                         "Curated a database of <strong>12,000+ books</strong> to support language diversity and global literary appreciation."
                     ]
                 },
                 {
-                    "organization": "PhishSignal",
+                    "heading": "PhishSignal",
                     "bullets": [
                         "Chrome extension built in <strong>TypeScript</strong> for Gmail; detects phishing attacks in real time using a rule-based engine."
                     ]
                 },
                 {
-                    "organization": "StorageManager Pro",
+                    "heading": "StorageManager Pro",
                     "bullets": [
                         "Cross-platform storage management app (<strong>Electron.js</strong>) with graphs, charts, and enhanced UI/UX for fast file analysis."
                     ]
                 },
                 {
-                    "organization": "MailFocus",
+                    "heading": "MailFocus",
                     "bullets": [
                         "Chrome extension (<strong>React + TypeScript</strong>) for inbox productivity; filters emails, manages priority senders, domains, and keywords."
                     ]
@@ -231,26 +229,26 @@ window.resumeDataRes = {
             "title": "Research Projects",
             "entries": [
                 {
-                    "organization": "Understanding Religious Ghettoisation Through Voter Lists and ML",
+                    "heading": "Understanding Religious Ghettoisation Through Voter Lists and ML",
                     "bullets": [
                         "Scalable pipeline for processing voter lists using OCR, machine learning, and automated data scraping, enabling demographic analysis at local, regional, and national levels."
                     ]
                 },
                 {
-                    "organization": "AI Plagiarism Detector",
+                    "heading": "AI Plagiarism Detector",
                     "bullets": [
                         "Engineered a model using linguistic and statistical features (perplexity, burstiness, Zipf's law) to predict AI influence in written content with high accuracy.",
                         "Optimized supervised model using a primary dataset sourced from students with mixed AI-Human content."
                     ]
                 },
                 {
-                    "organization": "Parachute Candidates Analysis",
+                    "heading": "Parachute Candidates Analysis",
                     "bullets": [
                         "Analyzed political parachuting in Lok Sabha 2019, studying 206 parachute candidates out of 8,157 to uncover candidate-constituency dynamics and electoral success correlations."
                     ]
                 },
                 {
-                    "organization": "Phishing URL Classification — IJSER",
+                    "heading": "Phishing URL Classification — IJSER",
                     "bullets": [
                         "Published research on phishing URL classification using decision trees and ensemble methods, achieving <strong>90% accuracy</strong>."
                     ]
@@ -262,13 +260,13 @@ window.resumeDataRes = {
             "title": "Ongoing Ventures",
             "entries": [
                 {
-                    "name": "MetaLaunch Labs",
-                    "tag": "Technology Agency",
+                    "heading": "MetaLaunch Labs",
+                    "subheading": "Technology Agency",
                     "description": "Currently building and delivering technology solutions across multiple sectors, including web and mobile apps, e-commerce platforms, MVPs, data science and ML algorithms, AI agents, and tech consulting."
                 },
                 {
-                    "name": "Towluxe",
-                    "tag": "Consumer Brand",
+                    "heading": "Towluxe",
+                    "subheading": "Consumer Brand",
                     "description": "Currently managing a premium towel and bath textile brand, overseeing product quality, supply chain processes, and direct-to-consumer distribution."
                 }
             ]
@@ -278,19 +276,19 @@ window.resumeDataRes = {
             "title": "Teaching & Mentorship",
             "entries": [
                 {
-                    "organization": "CreatEd",
+                    "heading": "CreatEd",
                     "bullets": [
                         "Teacher and mentor for 3 students, guiding them through project work, skill development, and creative problem-solving."
                     ]
                 },
                 {
-                    "organization": "Teaching Assistant, Introduction to Computer Science",
+                    "heading": "Teaching Assistant, Introduction to Computer Science",
                     "bullets": [
                         "Supported 130+ students under Prof. Debayan Gupta (PhD, Yale) & Prof. Aalok Thakkar (PhD, UPenn)."
                     ]
                 },
                 {
-                    "organization": "Lodha Genius Program",
+                    "heading": "Lodha Genius Program",
                     "bullets": [
                         "Mathematics Teaching Assistant, helping students strengthen problem-solving skills and conceptual understanding."
                     ]
@@ -332,23 +330,23 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "detailed_list",
+            "type": "table_3col",
             "title": "Awards & Accomplishments",
             "entries": [
                 {
-                    "organization": "Student Life Service Award",
-                    "date": "Feb 2025",
-                    "role": "Ministry of Technology, Office of Student Affairs, Ashoka University"
+                    "col1": "Student Life Service Award",
+                    "col2": "Ministry of Technology, Office of Student Affairs, Ashoka University",
+                    "col3": "Feb 2025"
                 },
                 {
-                    "organization": "Award for Creativity and Entrepreneurial Initiatives",
-                    "date": "Feb 2025",
-                    "role": "Office of Student Affairs, Ashoka University"
+                    "col1": "Award for Creativity and Entrepreneurial Initiatives",
+                    "col2": "Office of Student Affairs, Ashoka University",
+                    "col3": "Feb 2025"
                 },
                 {
-                    "organization": "Chandanben Mohanbai Patel Rotary Excellence Award",
-                    "date": "Sep 2020",
-                    "role": "Rotary Club of Bombay"
+                    "col1": "Chandanben Mohanbai Patel Rotary Excellence Award",
+                    "col2": "Rotary Club of Bombay",
+                    "col3": "Sep 2020"
                 }
             ]
         },

@@ -86,7 +86,9 @@ function updateBullet(sIdx, eIdx, bIdx, val) {
 }
 function addBullet(sIdx, eIdx) {
     history.save();
-    resumeData.sections[sIdx].entries[eIdx].bullets.push("New bullet point");
+    const entry = resumeData.sections[sIdx].entries[eIdx];
+    if (!entry.bullets) entry.bullets = [];
+    entry.bullets.push("New bullet point");
     renderSections();
 }
 function removeBullet(sIdx, eIdx, bIdx) {

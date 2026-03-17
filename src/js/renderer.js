@@ -45,6 +45,9 @@ function renderSections() {
     const sectionEl = document.createElement('div');
     sectionEl.className = 'section-wrapper';
 
+    const schema = window.sectionSchema[section.type];
+    const showTitle = schema ? !schema.hideTitle : true;
+
     let content = `
         <div class="section-ctrl">
           <button class="up-section" title="Move Up" onclick="moveSection(${sIdx}, -1)">↑</button>
@@ -53,7 +56,7 @@ function renderSections() {
           <button class="del-section" title="Remove entire section" onclick="removeSection(${sIdx})">✕</button>
         </div>
         <section>
-          <div class="section-title" contenteditable="${editMode}" onblur="updateSectionTitle(${sIdx}, this.innerText)">${section.title}</div>
+          ${showTitle ? `<div class="section-title" contenteditable="${editMode}" onblur="updateSectionTitle(${sIdx}, this.innerText)">${section.title}</div>` : ''}
           <div class="section-content">
             ${renderSectionContent(section, sIdx)}
           </div>
@@ -74,10 +77,10 @@ function renderSectionContent(section, sIdx) {
           ${section.entries.map((e, eIdx) => `
             <tr class="entry">
               <td>
-                <strong contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col1', this.innerText)">${e.col1 || e.institution || ''}</strong>
+                <strong contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col1', this.innerText)">${e.col1 || ''}</strong>
               </td>
-              <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col2', this.innerText)">${e.col2 || e.details || ''}</td>
-              <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col3', this.innerText)">${e.col3 || e.date || ''}</td>
+              <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col2', this.innerText)">${e.col2 || ''}</td>
+              <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col3', this.innerText)">${e.col3 || ''}</td>
               <td style="position:relative; width:0; padding:0">
                  ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
               </td>
@@ -92,10 +95,10 @@ function renderSectionContent(section, sIdx) {
           <div class="entry">
             ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
             <div class="entry-header">
-              <span class="entry-org" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'heading', this.innerText)">${e.heading || e.organization || ''}</span>
+              <span class="entry-org" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'heading', this.innerText)">${e.heading || ''}</span>
               <span class="entry-date" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'date', this.innerText)">${e.date || ''}</span>
             </div>
-            ${(e.subheading || e.role) ? `<div class="entry-role" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'subheading', this.innerText)">${e.subheading || e.role}</div>` : ''}
+            ${e.subheading ? `<div class="entry-role" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'subheading', this.innerText)">${e.subheading}</div>` : ''}
             <ul class="bullets">
               ${(e.bullets || []).map((b, bIdx) => `
                 <li style="position:relative">
@@ -126,8 +129,8 @@ function renderSectionContent(section, sIdx) {
         ${section.entries.map((e, eIdx) => `
           <div class="entry venture">
             ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
-            <strong contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'heading', this.innerText)">${e.heading || e.name || ''}</strong>
-            <span class="tag" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'subheading', this.innerText)">${e.subheading || e.tag || ''}</span>
+            <strong contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'heading', this.innerText)">${e.heading || ''}</strong>
+            <span class="tag" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'subheading', this.innerText)">${e.subheading || ''}</span>
             <p contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'description', this.innerText)">${e.description || ''}</p>
           </div>
         `).join('')}
@@ -149,8 +152,8 @@ function renderSectionContent(section, sIdx) {
       `;
   } else if (type === 'paragraph') {
     return `
-        <div class="summary-wrap" style="position:relative">
-          <div class="summary" contenteditable="${editMode}" onblur="updateSectionContent(${sIdx}, this.innerText)">
+        <div class="para-wrap" style="position:relative">
+          <div class="para-block" contenteditable="${editMode}" onblur="updateSectionContent(${sIdx}, this.innerText)">
               ${section.content || ''}
           </div>
         </div>
