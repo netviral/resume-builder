@@ -1,3 +1,5 @@
+// RESUME DATA: Edit content below. 
+// For layout definitions and adding new section types, see SCHEMA.md and src/js/schema.js
 window.resumeDataRes = {
     "metadata": {
         "name": "Ibrahim Khalil",
@@ -19,12 +21,16 @@ window.resumeDataRes = {
                 "label": "GitHub: netviral",
                 "href": "https://github.com/netviral"
             }
-        ],
-        "summary": "Systems & Product Builder tackling business and operational challenges across industrial, consumer, and digital ventures. Experienced in designing operational systems, launching ventures, and executing research-backed policy and analytics initiatives."
+        ]
     },
     "sections": [
         {
-            "type": "education",
+            "type": "paragraph",
+            "title": "Professional Summary",
+            "content": "Systems & Product Builder tackling business and operational challenges across industrial, consumer, and digital ventures. Experienced in designing operational systems, launching ventures, and executing research-backed policy and analytics initiatives."
+        },
+        {
+            "type": "table_3col",
             "title": "Education",
             "entries": [
                 {
@@ -45,7 +51,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "experience_details",
+            "type": "detailed_list",
             "title": "Professional Experience",
             "entries": [
                 {
@@ -82,7 +88,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "experience_details",
+            "type": "detailed_list",
             "title": "Social Impact & Policy Work",
             "entries": [
                 {
@@ -123,7 +129,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "experience_details",
+            "type": "detailed_list",
             "title": "Leadership & Positions Held",
             "entries": [
                 {
@@ -183,7 +189,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "experience_details",
+            "type": "detailed_list",
             "title": "Software Projects & Freelance",
             "entries": [
                 {
@@ -221,7 +227,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "experience_details",
+            "type": "detailed_list",
             "title": "Research Projects",
             "entries": [
                 {
@@ -252,7 +258,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "ventures",
+            "type": "simple_list",
             "title": "Ongoing Ventures",
             "entries": [
                 {
@@ -268,7 +274,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "experience_details",
+            "type": "detailed_list",
             "title": "Teaching & Mentorship",
             "entries": [
                 {
@@ -292,7 +298,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "skills",
+            "type": "key_value_grid",
             "title": "Technical Skills",
             "items": [
                 {
@@ -326,7 +332,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "experience_details",
+            "type": "detailed_list",
             "title": "Awards & Accomplishments",
             "entries": [
                 {
@@ -347,7 +353,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "bullets_two_columns",
+            "type": "bullet_grid",
             "title": "Languages",
             "bullets": [
                 "English (Native)",
@@ -357,7 +363,7 @@ window.resumeDataRes = {
             ]
         },
         {
-            "type": "bullets_two_columns",
+            "type": "bullet_grid",
             "title": "Areas of Interest",
             "bullets": [
                 "Industrial Ventures",

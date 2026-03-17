@@ -4,7 +4,6 @@
 
 function renderResume() {
   renderHeader();
-  renderSummary();
   renderSections();
 }
 
@@ -39,22 +38,6 @@ function renderHeader() {
     `;
 }
 
-function renderSummary() {
-  const root = document.getElementById('summary-root');
-  if (!resumeData.metadata.summary && !editMode) {
-    root.innerHTML = '';
-    return;
-  }
-  root.innerHTML = `
-      <div class="summary-wrap" style="position:relative">
-        <p class="summary" contenteditable="${editMode}" onblur="updateMeta('summary', this.innerText)">
-            ${resumeData.metadata.summary}
-        </p>
-        ${editMode ? `<button class="del-inline" title="Remove summary" onclick="removeSummary()">✕</button>` : ''}
-      </div>
-    `;
-}
-
 function renderSections() {
   const root = document.getElementById('sections-root');
   root.innerHTML = '';
@@ -83,34 +66,36 @@ function renderSections() {
 }
 
 function renderSectionContent(section, sIdx) {
-  if (section.type === 'education') {
+  const type = section.type;
+
+  if (type === 'table_3col') {
     return `
         <table class="edu-table">
           ${section.entries.map((e, eIdx) => `
             <tr class="entry">
               <td>
-                <strong contenteditable="${editMode}" onblur="updateEdu(${sIdx}, ${eIdx}, 'institution', this.innerText)">${e.institution}</strong>
+                <strong contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col1', this.innerText)">${e.col1 || e.institution || ''}</strong>
               </td>
-              <td contenteditable="${editMode}" onblur="updateEdu(${sIdx}, ${eIdx}, 'details', this.innerText)">${e.details}</td>
-              <td contenteditable="${editMode}" onblur="updateEdu(${sIdx}, ${eIdx}, 'date', this.innerText)">${e.date}</td>
+              <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col2', this.innerText)">${e.col2 || e.details || ''}</td>
+              <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col3', this.innerText)">${e.col3 || e.date || ''}</td>
               <td style="position:relative; width:0; padding:0">
                  ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
               </td>
             </tr>
           `).join('')}
         </table>
-        ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addEduEntry(${sIdx})"><span>+</span> Add Education Entry</button></div>` : ''}
+        ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addEntry(${sIdx})"><span>+</span> Add Row</button></div>` : ''}
       `;
-  } else if (section.type === 'experience_details') {
+  } else if (type === 'detailed_list') {
     return `
         ${section.entries.map((e, eIdx) => `
           <div class="entry">
             ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
             <div class="entry-header">
-              <span class="entry-org" contenteditable="${editMode}" onblur="updateExp(${sIdx}, ${eIdx}, 'organization', this.innerText)">${e.organization}</span>
-              <span class="entry-date" contenteditable="${editMode}" onblur="updateExp(${sIdx}, ${eIdx}, 'date', this.innerText)">${e.date || ''}</span>
+              <span class="entry-org" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'heading', this.innerText)">${e.heading || e.organization || ''}</span>
+              <span class="entry-date" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'date', this.innerText)">${e.date || ''}</span>
             </div>
-            ${e.role ? `<div class="entry-role" contenteditable="${editMode}" onblur="updateExp(${sIdx}, ${eIdx}, 'role', this.innerText)">${e.role}</div>` : ''}
+            ${(e.subheading || e.role) ? `<div class="entry-role" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'subheading', this.innerText)">${e.subheading || e.role}</div>` : ''}
             <ul class="bullets">
               ${(e.bullets || []).map((b, bIdx) => `
                 <li style="position:relative">
@@ -122,9 +107,9 @@ function renderSectionContent(section, sIdx) {
             ${editMode ? `<div class="add-action-area compact" style="padding-left:1.2rem"><button class="add-btn small" onclick="addBullet(${sIdx}, ${eIdx})"><span>+</span> Add Bullet Point</button></div>` : ''}
           </div>
         `).join('')}
-        ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addExpEntry(${sIdx})"><span>+</span> Add Professional Entry</button></div>` : ''}
+        ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addEntry(${sIdx})"><span>+</span> Add Entry</button></div>` : ''}
       `;
-  } else if (section.type === 'bullets_two_columns') {
+  } else if (type === 'bullet_grid') {
     return `
         <ul class="two-col">
           ${section.bullets.map((b, bIdx) => `
@@ -136,32 +121,40 @@ function renderSectionContent(section, sIdx) {
         </ul>
         ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addColBullet(${sIdx})"><span>+</span> Add List Item</button></div>` : ''}
       `;
-  } else if (section.type === 'ventures') {
+  } else if (type === 'simple_list') {
     return `
         ${section.entries.map((e, eIdx) => `
           <div class="entry venture">
             ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
-            <strong contenteditable="${editMode}" onblur="updateVenture(${sIdx}, ${eIdx}, 'name', this.innerText)">${e.name}</strong>
-            <span class="tag" contenteditable="${editMode}" onblur="updateVenture(${sIdx}, ${eIdx}, 'tag', this.innerText)">${e.tag}</span>
-            <p contenteditable="${editMode}" onblur="updateVenture(${sIdx}, ${eIdx}, 'description', this.innerText)">${e.description}</p>
+            <strong contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'heading', this.innerText)">${e.heading || e.name || ''}</strong>
+            <span class="tag" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'subheading', this.innerText)">${e.subheading || e.tag || ''}</span>
+            <p contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'description', this.innerText)">${e.description || ''}</p>
           </div>
         `).join('')}
-        ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addVentureEntry(${sIdx})"><span>+</span> Add Venture</button></div>` : ''}
+        ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addEntry(${sIdx})"><span>+</span> Add Entry</button></div>` : ''}
       `;
-  } else if (section.type === 'skills') {
+  } else if (type === 'key_value_grid') {
     return `
         <div class="skills-grid">
           ${section.items.map((item, iIdx) => `
             <div class="entry" style="position:relative">
-              ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Skill" onclick="removeSkill(${sIdx}, ${iIdx})">✕</button></div>` : ''}
+              ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Item" onclick="removeSkill(${sIdx}, ${iIdx})">✕</button></div>` : ''}
               <div contenteditable="${editMode}" onblur="updateSkill(${sIdx}, ${iIdx}, this.innerHTML)">
                 <strong>${item.label}:</strong> ${item.value}
               </div>
             </div>
           `).join('')}
         </div>
-        ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addSkill(${sIdx})"><span>+</span> Add Skill Category</button></div>` : ''}
+        ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addSkill(${sIdx})"><span>+</span> Add Row</button></div>` : ''}
       `;
+  } else if (type === 'paragraph') {
+    return `
+        <div class="summary-wrap" style="position:relative">
+          <div class="summary" contenteditable="${editMode}" onblur="updateSectionContent(${sIdx}, this.innerText)">
+              ${section.content || ''}
+          </div>
+        </div>
+    `;
   }
   return '';
 }

@@ -1,8 +1,8 @@
 /**
- * Entry-level CRUD Operations (Bullets, Skills, Ventures, etc.)
+ * Entry-level CRUD Operations (Generic & Schema-driven)
  */
 
-/* Meta & Contact */
+/* Meta & Header Controls */
 function updateMeta(key, val) {
     history.save();
     resumeData.metadata[key] = val;
@@ -32,31 +32,54 @@ function removeSummary() {
     renderSummary();
 }
 
-/* Removal Generic */
-function removeEntry(sIdx, eIdx) {
-    if (confirm('Are you sure you want to remove this entry?')) {
-        history.save();
-        resumeData.sections[sIdx].entries.splice(eIdx, 1);
+/* Generic Section Content Update */
+function updateSectionContent(sIdx, val) {
+    history.save();
+    const section = resumeData.sections[sIdx];
+    const schema = window.sectionSchema[section.type];
+    if (schema && schema.isSingleText) {
+        section[schema.itemKey] = val;
+    } else {
+        section.content = val;
+    }
+}
+
+/* Generic Entry/Row CRUD */
+function addEntry(sIdx) {
+    history.save();
+    const section = resumeData.sections[sIdx];
+    const schema = window.sectionSchema[section.type];
+
+    if (schema) {
+        const newItem = JSON.parse(JSON.stringify(schema.defaultItem));
+        section[schema.itemKey].push(newItem);
         renderSections();
     }
 }
 
-/* Education */
-function updateEdu(sIdx, eIdx, key, val) {
-    history.save();
-    resumeData.sections[sIdx].entries[eIdx][key] = val;
-}
-function addEduEntry(sIdx) {
-    history.save();
-    resumeData.sections[sIdx].entries.push({ institution: "New Institute", details: "Details", date: "202x" });
-    renderSections();
+function removeEntry(sIdx, eIdx) {
+    if (confirm('Are you sure you want to remove this entry?')) {
+        history.save();
+        const section = resumeData.sections[sIdx];
+        const schema = window.sectionSchema[section.type];
+        section[schema.itemKey].splice(eIdx, 1);
+        renderSections();
+    }
 }
 
-/* Experience & Bullets */
-function updateExp(sIdx, eIdx, key, val) {
+function updateEntryField(sIdx, eIdx, key, val) {
     history.save();
-    resumeData.sections[sIdx].entries[eIdx][key] = val;
+    const section = resumeData.sections[sIdx];
+    const schema = window.sectionSchema[section.type];
+    const entry = section[schema.itemKey][eIdx];
+
+    // Map abstract keys back to existing data if needed, or just use key
+    // For legacy data support in renderer, we handle it there. 
+    // Here we save to the abstract key.
+    entry[key] = val;
 }
+
+/* Bullet Management (Detailed Lists & Bullet Grids) */
 function updateBullet(sIdx, eIdx, bIdx, val) {
     history.save();
     resumeData.sections[sIdx].entries[eIdx].bullets[bIdx] = val;
@@ -71,13 +94,8 @@ function removeBullet(sIdx, eIdx, bIdx) {
     resumeData.sections[sIdx].entries[eIdx].bullets.splice(bIdx, 1);
     renderSections();
 }
-function addExpEntry(sIdx) {
-    history.save();
-    resumeData.sections[sIdx].entries.push({ organization: "New Org", date: "Date", role: "Role", bullets: ["Initial bullet"] });
-    renderSections();
-}
 
-/* Lists & Columns */
+/* Bullet Grid Management (Simple Arrays) */
 function updateColBullet(sIdx, bIdx, val) {
     history.save();
     resumeData.sections[sIdx].bullets[bIdx] = val;
@@ -93,18 +111,7 @@ function removeColBullet(sIdx, bIdx) {
     renderSections();
 }
 
-/* Ventures */
-function updateVenture(sIdx, eIdx, key, val) {
-    history.save();
-    resumeData.sections[sIdx].entries[eIdx][key] = val;
-}
-function addVentureEntry(sIdx) {
-    history.save();
-    resumeData.sections[sIdx].entries.push({ name: "New Venture", tag: "Tech", description: "Desc" });
-    renderSections();
-}
-
-/* Skills */
+/* Key-Value Grid Management (e.g. Skills) */
 function updateSkill(sIdx, iIdx, val) {
     const parts = val.split(':');
     if (parts.length > 1) {

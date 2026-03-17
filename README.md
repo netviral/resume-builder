@@ -4,51 +4,48 @@ A modular, dynamic resume builder that separates data from design. Build your re
 
 ## 🚀 Features
 
-- **Modular Architecture**: Clean separation between data (`data.js`), rendering logic, and themes.
+- **Schema-Driven Architecture**: All sections are abstract layouts (Lists, Tables, Grids, Paragraphs). The editor doesn't care if a section is "Education" or "Experience"—it just knows the layout.
 - **Dynamic Editor**: Edit content directly on the page. Hover over sections or entries to see management controls.
-- **Theme Support**: Quickly switch between different resume styles (Default Blue, Modern Dark).
+- **Undo/Redo Support**: Full history management for all edits.
+- **Theme Support**: Professional themes with consistent global layout.
 - **Customizable Layout**: Adjust page margins and font sizes in real-time.
-- **Local-First**: Loads data instantly via `data.js` without needing a local server (CORS-friendly).
-- **Export Options**: Export your refined data as `.json` for backup or `.js` for direct usage.
+- **Export Options**: Export your data as `.json` or `.js`.
 
 ## 📁 Repository Structure
 
 ```text
 ├── ibrahim_khalil_resume_editable.html  # Main Application Entry
-├── data.js                             # Your Resume Data (JS format for local loading)
-├── data.json                           # Your Resume Data (Standard JSON format)
+├── data.js                             # Your Resume Data (JS format)
 ├── src/
 │   ├── js/
-│   │   ├── renderer.js                 # Resume Rendering Engine
-│   │   └── editor.js                   # Application State & Editor UI Logic
+│   │   ├── schema.js                   # THE SCHEMA: Defines all section types and layouts
+│   │   ├── renderer.js                 # Rendering Engine (Uses schema)
+│   │   └── editor/                     # Modular Editor Logic
+│   │       ├── state.js                # State & Undo/Redo
+│   │       ├── core.js                 # Keyboard shortcuts & Toggle
+│   │       ├── settings.js             # Margins & Themes
+│   │       ├── sections-crud.js        # Add/Remove/Move Sections
+│   │       └── entries-crud.js         # Add/Remove/Edit items inside sections
 │   └── css/
-│       ├── editor.css                  # UI Styles for the Builder interface
-│       └── themes/
-│           ├── default.css             # Classic Blue Theme
-│           └── dark.css                # Modern Dark/Night Theme
+│       ├── editor/                     # Editor Interface Styles
+│       └── themes/                     # Resume Design Themes
 ```
 
 ## 🛠 Usage
 
-1. **Open the App**: Simply open `ibrahim_khalil_resume_editable.html` in any modern browser.
-2. **Toggle Edit Mode**: Click **✏ Edit Mode** in the top bar to start customizing.
+1. **Open the App**: Simply open `ibrahim_khalil_resume_editable.html`.
+2. **Toggle Edit Mode**: Click **✏ Edit Mode** to start customizing.
 3. **Manage Content**:
    - **Edit Text**: Click any text to edit.
-   - **Manage Sections**: Hover over a section title to reveal the **✕** button.
-   - **Add Sections**: Use the **+ add new section** button at the bottom and choose a category.
-   - **Manage Entries**: Hover over job or education entries to reveal management buttons.
-4. **Save Your Work**: 
-   - Click **💾 Save JSON**.
-   - Choose **Export data.js** and download it.
-   - Replace the existing `data.js` in your folder with the new one.
-5. **Print to PDF**: Click **↓ Export PDF** (or `Cmd/Ctrl + P`) and save as PDF.
+   - **Add Sections**: Use the **+ add new section** button. It will show generic options like "3-Column Table" or "Detailed List".
+   - **Undo/Redo**: Use `Cmd+Z` / `Cmd+Shift+Z` or `Ctrl+Z` / `Ctrl+Y`.
+4. **Export**: Use the toolbar to save your progress or print to PDF.
 
-## 🎨 Themes
+## 📖 Schema & Customization
 
-You can find resume themes in `src/css/themes/`. To create a new theme:
-1. Copy `default.css`.
-2. Modify the colors and typography.
-3. Add your new theme as an option in the `<select>` tag inside `ibrahim_khalil_resume_editable.html`.
+The builder is designed to be infinitely extensible. To add a new type of resume section, simply define it in `src/js/schema.js`. 
+
+Read **[SCHEMA.md](./SCHEMA.md)** for a deep dive into how section types work.
 
 ---
 Made with ❤️ by Ibrahim Khalil
