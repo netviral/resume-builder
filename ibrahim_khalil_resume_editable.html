@@ -8,6 +8,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="src/css/themes/base.css">
   <link rel="stylesheet" id="theme-link" href="src/css/themes/default.css">
   <link rel="stylesheet" href="src/css/editor.css">
 </head>
@@ -27,20 +28,17 @@
   <!-- EDITOR CONTROLS -->
   <div class="editor-controls">
     <label for="margin-x">Margin X (rem):</label>
-    <input type="number" id="margin-x" step="0.1" value="3.0" onchange="updateSettings()">
+    <input type="number" id="margin-x" step="0.1" value="2.5" onchange="updateSettings()">
 
     <label for="margin-y">Margin Y (rem):</label>
-    <input type="number" id="margin-y" step="0.1" value="2.8" onchange="updateSettings()">
+    <input type="number" id="margin-y" step="0.1" value="1.5" onchange="updateSettings()">
 
     <label for="font-size">Font Size (px):</label>
-    <input type="number" id="font-size" value="15" onchange="updateSettings()">
+    <input type="number" id="font-size" value="12" onchange="updateSettings()">
 
     <label for="theme-selector">Theme:</label>
     <select id="theme-selector" onchange="changeTheme()">
-      <option value="src/css/themes/default.css">Default Blue</option>
-      <option value="src/css/themes/dark.css">Modern Dark</option>
-      <option value="src/css/themes/cyberpunk.css">Cyberpunk (Matrix)</option>
-      <option value="src/css/themes/rose.css">Rose Sidebar</option>
+      <!-- Populated dynamically -->
     </select>
   </div>
 
@@ -61,6 +59,7 @@
 
   <!-- Data and Logic -->
   <script src="data.js"></script>
+  <script src="src/js/themes.js"></script>
   <script src="src/js/renderer.js"></script>
   <script src="src/js/editor.js"></script>
 </body>

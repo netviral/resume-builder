@@ -369,8 +369,8 @@ window.resumeDataRes = {
         }
     ],
     "settings": {
-        "marginX": 3.0,
-        "marginY": 2.8,
-        "fontSize": 15
+        "marginX": 2.5,
+        "marginY": 1.5,
+        "fontSize": 12
     }
 }

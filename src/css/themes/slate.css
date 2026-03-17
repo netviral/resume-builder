@@ -1,0 +1,27 @@
+:root {
+    --accent: #475569;
+    --accent-light: #64748b;
+    --gray: #4b5563;
+    --light-gray: #9ca3af;
+    --border: #e2e8f0;
+    --bg: #f8fafc;
+    --paper: #ffffff;
+    --text: #1e293b;
+    --highlight: rgba(71, 85, 105, 0.05);
+    --highlight-border: rgba(71, 85, 105, 0.2);
+}
+
+/* Slate specific overrides */
+.header h1 {
+    color: var(--text);
+}
+
+.section-title {
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.1em;
+}
+
+.page {
+    border-top-width: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}

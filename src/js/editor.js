@@ -8,12 +8,22 @@ let editMode = false;
 function init() {
     if (window.resumeDataRes) {
         resumeData = window.resumeDataRes;
+        populateThemes();
         renderResume();
         applySettings();
     } else {
         console.error('Error: resumeDataRes not found. Ensure data.js is loaded.');
         showLoadOverlay();
     }
+}
+
+function populateThemes() {
+    const selector = document.getElementById('theme-selector');
+    if (!selector || !window.resumeThemes) return;
+
+    selector.innerHTML = window.resumeThemes.map(t =>
+        `<option value="${t.path}">${t.name}</option>`
+    ).join('');
 }
 
 function showLoadOverlay() {
