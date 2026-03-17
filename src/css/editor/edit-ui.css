@@ -6,27 +6,44 @@
 }
 
 body.editing .section-wrapper {
-    margin-right: -40px;
-    padding-right: 40px;
+    margin: -25px -40px -25px 0;
+    /* -25px offset for 25px padding to keep layout stable */
+    padding: 25px 40px 25px 0;
+    transition: background 0.1s ease;
 }
 
 body.editing .section-wrapper:hover {
-    background: rgba(0, 0, 0, 0.02);
+    background: rgba(26, 63, 160, 0.03);
+    /* More visible blue tint on hover */
+    border-radius: 4px;
 }
 
 /* Section Management (Left Side) */
 .section-ctrl {
     position: absolute;
-    left: -45px;
-    top: 0;
+    left: -48px;
+    top: 15px;
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
+    z-index: 100;
 }
 
-body.editing .section-wrapper:hover>.section-ctrl {
+.section-ctrl::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    bottom: -60px;
+    left: -15px;
+    right: -80px;
+    /* Big bridge to reach into the section content */
+    z-index: -1;
+}
+
+body.editing .section-wrapper:hover>.section-ctrl,
+.section-ctrl:hover {
     opacity: 1;
 }
 

@@ -52,7 +52,6 @@ function renderSections() {
         <div class="section-ctrl">
           <button class="up-section" title="Move Up" onclick="moveSection(${sIdx}, -1)">↑</button>
           <button class="down-section" title="Move Down" onclick="moveSection(${sIdx}, 1)">↓</button>
-          <div style="height:5px"></div>
           <button class="del-section" title="Remove entire section" onclick="removeSection(${sIdx})">✕</button>
         </div>
         <section>

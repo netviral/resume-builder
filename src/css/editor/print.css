@@ -12,6 +12,11 @@
         display: none !important;
     }
 
+    body.editing .section-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
     body.editing [contenteditable] {
         background: transparent !important;
         box-shadow: none !important;
