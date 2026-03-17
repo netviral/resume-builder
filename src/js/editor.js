@@ -193,15 +193,23 @@ function updateSettings() {
 }
 
 function updateCSSVariables() {
+    // Target both root and the resume-wrap to ensure print picks up local overrides
+    const wrap = document.getElementById('resume-wrap');
     const root = document.documentElement;
-    root.style.setProperty('--page-margin-x', resumeData.settings.marginX + 'rem');
-    root.style.setProperty('--page-margin-y', resumeData.settings.marginY + 'rem');
-    root.style.setProperty('--base-font-size', resumeData.settings.fontSize + 'px');
+
+    [root, wrap].forEach(el => {
+        if (!el) return;
+        el.style.setProperty('--page-margin-x', resumeData.settings.marginX + 'rem');
+        el.style.setProperty('--page-margin-y', resumeData.settings.marginY + 'rem');
+        el.style.setProperty('--base-font-size', resumeData.settings.fontSize + 'px');
+    });
 }
 
 function changeTheme() {
     const theme = document.getElementById('theme-selector').value;
     document.getElementById('theme-link').href = theme;
+    // Small delay to ensure theme loads before we apply overrides
+    setTimeout(updateCSSVariables, 50);
 }
 
 /* TOOLBAR ACTIONS */

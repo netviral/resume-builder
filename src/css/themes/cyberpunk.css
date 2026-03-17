@@ -1,0 +1,95 @@
+:root {
+    --accent: #00ff41;
+    --accent-light: #00ff41;
+    --gray: #00ff41;
+    --light-gray: #008f11;
+    --border: #003b00;
+    --bg: #0d0208;
+    --paper: #000000;
+    --text: #00ff41;
+    --highlight: rgba(0, 255, 65, 0.1);
+    --highlight-border: rgba(0, 255, 65, 0.4);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: var(--base-font-size);
+}
+
+body {
+    font-family: 'DM Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 0;
+}
+
+#resume-wrap {
+    max-width: 900px;
+    margin: 1.5rem auto;
+    padding: 0 1rem 3rem;
+}
+
+.page {
+    background: var(--paper);
+    padding: var(--page-margin-y) var(--page-margin-x);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 20px var(--accent);
+    position: relative;
+}
+
+.header h1 {
+    font-family: 'DM Mono', monospace;
+    font-size: 3rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--accent);
+}
+
+.section-title {
+    font-family: 'DM Mono', monospace;
+    color: #000;
+    background: var(--accent);
+    padding: 0.2rem 0.5rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.summary {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+}
+
+ul.bullets li::before {
+    content: '>';
+    color: var(--accent);
+}
+
+.edu-table td:first-child,
+.entry-org,
+.proj-name,
+.venture strong,
+.skills-grid strong {
+    color: var(--accent);
+    text-shadow: 0 0 5px var(--accent);
+}
+
+@media print {
+    body {
+        background: black;
+        color: #00ff41;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .page {
+        border: 2px solid #00ff41;
+    }
+}
