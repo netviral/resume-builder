@@ -1,0 +1,106 @@
+:root {
+    --accent: #1e3a8a;
+    /* Deep Navy */
+    --accent-light: #3b82f6;
+    --gray: #374151;
+    --light-gray: #6b7280;
+    --border: #e5e7eb;
+    --bg: #f8fafc;
+    --paper: #ffffff;
+    --text: #0f172a;
+    --highlight: rgba(30, 58, 138, 0.05);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* ── HEADER: Block Style ── */
+.header {
+    background: var(--text);
+    color: white;
+    margin: -1.5rem -2.5rem 2.5rem -2.5rem;
+    /* Extend into margins */
+    padding: 2.5rem 2.5rem;
+    text-align: left;
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0;
+    color: white;
+    letter-spacing: -0.02em;
+}
+
+.header .tagline {
+    color: var(--accent-light);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.header .contacts {
+    margin-top: 1.5rem;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    font-size: 0.75rem;
+}
+
+.header .contacts a {
+    color: white;
+    opacity: 0.9;
+}
+
+.header .contacts span {
+    color: var(--accent-light);
+}
+
+/* ── SECTION: Modern Industrial ── */
+.section-title {
+    font-size: 0.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text);
+    padding: 0.4rem 0.8rem;
+    background: var(--highlight);
+    border-left: 4px solid var(--accent);
+    border-bottom: none;
+    margin-bottom: 1.5rem;
+}
+
+/* ── ENTRIES ── */
+.entry {
+    padding-left: 0.8rem;
+}
+
+.entry-org {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent);
+}
+
+.entry-role {
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.entry-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    background: var(--border);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    color: var(--text);
+}
+
+ul.bullets li::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: bold;
+}

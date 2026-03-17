@@ -1,0 +1,86 @@
+:root {
+    --accent: #000000;
+    --accent-light: #444444;
+    --gray: #555555;
+    --light-gray: #888888;
+    --border: #f0f0f0;
+    --bg: #ffffff;
+    --paper: #ffffff;
+    --text: #1a1a1a;
+    --highlight: #f8f8f8;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.015em;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* ── HEADER: Left Aligned Minimalist ── */
+.header {
+    text-align: left;
+    margin-bottom: 3.5rem;
+}
+
+.header h1 {
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.1rem;
+}
+
+.header .tagline {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--light-gray);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.header .contacts {
+    justify-content: flex-start;
+    margin-top: 1.2rem;
+    gap: 1rem;
+    font-size: 0.75rem;
+}
+
+/* ── SECTION: Vertical Rhythm ── */
+.section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--accent);
+    /* width: 25px; */
+    /* Minimalist underline */
+    padding-bottom: 2px;
+}
+
+/* ── ENTRIES ── */
+.entry {
+    margin-bottom: 1.5rem;
+}
+
+.entry-org {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.entry-role {
+    font-weight: 500;
+    font-size: 0.82rem;
+    color: var(--gray);
+}
+
+.entry-date {
+    font-weight: 400;
+    opacity: 0.7;
+}
+
+ul.bullets li {
+    font-size: 0.85rem;
+    color: var(--gray);
+}

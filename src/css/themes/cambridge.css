@@ -1,0 +1,86 @@
+:root {
+    --accent: #2c3e50;
+    --accent-light: #34495e;
+    --gray: #4a5568;
+    --light-gray: #718096;
+    --border: #edf2f7;
+    --bg: #f7fafc;
+    --paper: #ffffff;
+    --text: #1a202c;
+    --highlight: rgba(44, 62, 80, 0.04);
+}
+
+body {
+    font-family: 'EB Garamond', serif;
+    font-size: 11.5px;
+}
+
+/* ── HEADER: Balanced & Centered ── */
+.header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+    color: var(--text);
+    letter-spacing: -0.01em;
+}
+
+.header .tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--light-gray);
+}
+
+.header .contacts {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 400;
+    margin-top: 0.8rem;
+    color: var(--gray);
+}
+
+/* ── SECTION: Understated Horizontal ── */
+.section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 0.2rem;
+    margin-bottom: 1rem;
+}
+
+/* ── ENTRIES ── */
+.entry-org {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.entry-header {
+    margin-bottom: 0.1rem;
+}
+
+.entry-date {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+.entry-role {
+    font-style: italic;
+    color: var(--gray);
+}
+
+ul.bullets li {
+    margin-bottom: 0.3rem;
+    line-height: 1.5;
+}

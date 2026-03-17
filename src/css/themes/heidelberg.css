@@ -1,0 +1,106 @@
+:root {
+    --accent: #2c3e50;
+    --accent-light: #2980b9;
+    --gray: #34495e;
+    --light-gray: #7f8c8d;
+    --border: #dcdde1;
+    --bg: #f5f6fa;
+    --paper: #ffffff;
+    --text: #2f3640;
+    --highlight: rgba(44, 62, 80, 0.05);
+}
+
+body {
+    font-family: 'EB Garamond', serif;
+    font-size: 11.5px;
+    line-height: 1.6;
+}
+
+/* ── HEADER: Stately & Classic ── */
+.header {
+    text-align: left;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--accent);
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.1rem;
+    color: var(--accent);
+}
+
+.header .tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+}
+
+.header .contacts {
+    justify-content: flex-start;
+    margin-top: 1rem;
+    font-size: 0.78rem;
+}
+
+/* ── SECTION: Outdent Look ── */
+.section-wrapper {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+/* ── ENTRIES ── */
+.entry {
+    margin-bottom: 1.5rem;
+}
+
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.entry-org {
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.entry-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gray);
+}
+
+.entry-role {
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-top: -2px;
+}
+
+ul.bullets li::before {
+    content: '▪';
+    color: var(--accent);
+    top: 1px;
+}

@@ -3,8 +3,13 @@
  */
 window.resumeThemes = [
     { name: "Navy Classic", path: "src/css/themes/default.css" },
-    { name: "Modern Dark", path: "src/css/themes/dark.css" },
-    { name: "Emerald Pro", path: "src/css/themes/emerald.css" },
-    { name: "Minimal Slate", path: "src/css/themes/slate.css" },
-    { name: "Crimson Accent", path: "src/css/themes/red.css" }
+    { name: "Monaco (Executive)", path: "src/css/themes/monaco.css" },
+    { name: "Cambridge (Academic)", path: "src/css/themes/cambridge.css" },
+    { name: "Stockholm (Minimal)", path: "src/css/themes/stockholm.css" },
+    { name: "Heidelberg (Tradition)", path: "src/css/themes/heidelberg.css" },
+    { name: "Toronto (Professional)", path: "src/css/themes/toronto.css" },
+    { name: "Zurich (Elegant)", path: "src/css/themes/zurich.css" },
+    { name: "Stanford (Academic Tech)", path: "src/css/themes/stanford.css" },
+    { name: "Chicago (Corporate)", path: "src/css/themes/chicago.css" },
+    { name: "Milan (Designer)", path: "src/css/themes/milan.css" }
 ];

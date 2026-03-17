@@ -1,0 +1,65 @@
+:root {
+    --accent: #5b21b6;
+    --accent-light: #7c3aed;
+    --gray: #4b5563;
+    --light-gray: #9ca3af;
+    --border: #ddd;
+    --bg: #fff;
+    --paper: #ffffff;
+    --text: #1f2937;
+    --highlight: rgba(91, 33, 182, 0.05);
+    --highlight-border: rgba(91, 33, 182, 0.2);
+}
+
+body {
+    font-family: 'Merriweather', serif;
+}
+
+/* ── HEADER OVERRIDE ── */
+.header {
+    text-align: left;
+    margin-bottom: 3rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 1.5rem;
+}
+
+.header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2rem;
+}
+
+.header .contacts {
+    justify-content: flex-start;
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    opacity: 0.8;
+}
+
+/* ── SECTION OVERRIDE ── */
+.section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--light-gray);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+}
+
+/* ── ENTRIES ── */
+.entry-org {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.01em;
+}
+
+.para-block {
+    font-size: 0.9rem;
+}
+
+ul.bullets li::before {
+    content: '→';
+    color: var(--accent);
+}

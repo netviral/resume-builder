@@ -1,0 +1,118 @@
+:root {
+    --accent: #2c3e50;
+    /* Formal Navy */
+    --accent-light: #34495e;
+    --gray: #333333;
+    --light-gray: #555555;
+    --border: #f1f1f1;
+    --bg: #fdfdfd;
+    --paper: #ffffff;
+    --text: #1a1a1a;
+    --highlight: rgba(44, 62, 80, 0.05);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 1.45;
+    letter-spacing: -0.0125em;
+}
+
+/* ── HEADER: Left Aligned Heavy Border ── */
+.header {
+    display: table;
+    width: 100%;
+    margin-bottom: 3.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 5px solid var(--accent);
+}
+
+.header h1 {
+    font-size: 3.2rem;
+    font-weight: 900;
+    margin: 0;
+    color: var(--accent);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.header .tagline {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--light-gray);
+    margin-top: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.header .contacts {
+    text-align: right;
+    display: table-cell;
+    vertical-align: bottom;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    padding-bottom: 5px;
+}
+
+.header .contacts span {
+    display: block;
+    /* Stack contacts in this table-cell */
+    color: transparent;
+    /* Hide pipes */
+    height: 0;
+    margin: 0;
+}
+
+.header .contact-item {
+    display: block !important;
+    margin: 0.2rem 0;
+}
+
+/* ── SECTION: High Contrast Block ── */
+.section-wrapper {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 0.9rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: white;
+    background: var(--accent);
+    padding: 0.4rem 0.8rem;
+    border-bottom: none;
+    margin-bottom: 1.5rem;
+}
+
+/* ── ENTRIES ── */
+.entry {
+    margin-bottom: 1.4rem;
+}
+
+.entry-org {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--accent);
+}
+
+.entry-role {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 2px;
+}
+
+.entry-date {
+    font-weight: 500;
+    font-size: 0.75rem;
+    background: var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+ul.bullets li::before {
+    content: '‣';
+    color: var(--accent);
+    font-size: 1.2rem;
+    top: -1px;
+}

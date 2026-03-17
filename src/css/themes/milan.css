@@ -1,0 +1,115 @@
+:root {
+    --accent: #5d4037;
+    /* Warm Designer Brown */
+    --accent-light: #795548;
+    --gray: #424242;
+    --light-gray: #616161;
+    --border: #e0e0e0;
+    --bg: #fffcf4;
+    /* Sophisticated Paper Shade */
+    --paper: #ffffff;
+    --text: #1a1a1a;
+    --highlight: rgba(93, 64, 55, 0.05);
+}
+
+body {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    line-height: 1.55;
+    background: var(--bg);
+}
+
+/* ── HEADER: Overlined Thin Elegance ── */
+.header {
+    margin-bottom: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--accent);
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.6rem;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 0.2rem;
+    color: var(--text);
+    text-transform: capitalize;
+    letter-spacing: 0.05em;
+}
+
+.header .tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    margin-bottom: 0.1rem;
+}
+
+.header .contacts {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    gap: 1.4rem;
+    color: var(--light-gray);
+}
+
+/* ── SECTION: Tiny Decorative Overline ── */
+.section-wrapper {
+    margin-bottom: 2.2rem;
+}
+
+.section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+    border-bottom: none;
+    border-top: 2px solid var(--accent);
+    /* width: 2rem; */
+    padding-top: 5px;
+}
+
+/* ── ENTRIES ── */
+.entry {
+    margin-bottom: 1.5rem;
+}
+
+.entry-header {
+    margin-bottom: 0.1rem;
+}
+
+.entry-org {
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-family: 'EB Garamond', serif;
+}
+
+.entry-role {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+}
+
+.entry-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+ul.bullets li::before {
+    content: '◦';
+    color: var(--accent);
+    font-size: 1.1rem;
+    font-weight: bold;
+}
