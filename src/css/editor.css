@@ -177,6 +177,13 @@ body.editing .section-wrapper:hover>.section-ctrl {
     border-color: var(--editor-danger);
 }
 
+.section-ctrl button.up-section:hover,
+.section-ctrl button.down-section:hover {
+    background: var(--editor-accent);
+    color: white;
+    border-color: var(--editor-accent);
+}
+
 /* Entry Controls */
 .entry {
     position: relative;
@@ -260,6 +267,50 @@ body.editing li:hover>.bullet-ctrl {
     border-color: #fca5a5;
 }
 
+/* Inline Deletion for Tagline/Contacts/Summary */
+.del-inline {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    font-size: 8px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: white;
+    color: #999;
+    cursor: pointer;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    z-index: 10;
+}
+
+body.editing .tagline-wrap:hover .del-inline,
+body.editing .contact-item:hover .del-inline,
+body.editing .summary-wrap:hover .del-inline {
+    display: flex;
+}
+
+.del-inline:hover {
+    background: var(--editor-danger);
+    color: white;
+    border-color: var(--editor-danger);
+}
+
+.add-btn.small {
+    padding: 2px 6px;
+    font-size: 9px;
+    border-radius: 3px;
+    opacity: 0.6;
+}
+
+.add-btn.small:hover {
+    opacity: 1;
+}
+
 /* Add Buttons */
 .add-action-area {
     margin: 15px 0;
@@ -270,14 +321,21 @@ body.editing li:hover>.bullet-ctrl {
     display: none;
 }
 
+.add-action-area.compact {
+    margin: 4px 0 0 0;
+    padding: 2px 0;
+    border: none;
+    text-align: left;
+}
+
 body.editing .add-action-area {
     display: block;
 }
 
 .add-btn {
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    padding: 5px 12px;
+    font-size: 12px;
+    padding: 6px 16px;
     border-radius: 4px;
     border: 1px solid #ccc;
     background: white;
@@ -285,8 +343,16 @@ body.editing .add-action-area {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     transition: all 0.2s;
+}
+
+.add-btn.small {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-color: #eee;
+    color: #999;
+    border-radius: 3px;
 }
 
 .add-btn:hover {

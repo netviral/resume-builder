@@ -5,6 +5,47 @@
 let resumeData = null;
 let editMode = false;
 
+/* HISTORY MANAGEMENT (Undo/Redo) */
+const history = {
+    undoStack: [],
+    redoStack: [],
+    maxDepth: 50,
+
+    save() {
+        // Only save if the data has actually changed from the last snapshot
+        const currentState = JSON.stringify(resumeData);
+        if (this.undoStack.length > 0 && this.undoStack[this.undoStack.length - 1] === currentState) return;
+
+        this.undoStack.push(currentState);
+        if (this.undoStack.length > this.maxDepth) this.undoStack.shift();
+        this.redoStack = []; // Reset redo stack on new action
+    },
+
+    undo() {
+        if (this.undoStack.length === 0) return;
+        const currentState = JSON.stringify(resumeData);
+        this.redoStack.push(currentState);
+
+        const prevState = JSON.parse(this.undoStack.pop());
+        resumeData = prevState;
+
+        renderResume();
+        applySettings();
+    },
+
+    redo() {
+        if (this.redoStack.length === 0) return;
+        const currentState = JSON.stringify(resumeData);
+        this.undoStack.push(currentState);
+
+        const nextState = JSON.parse(this.redoStack.pop());
+        resumeData = nextState;
+
+        renderResume();
+        applySettings();
+    }
+};
+
 function init() {
     if (window.resumeDataRes) {
         resumeData = window.resumeDataRes;
@@ -60,43 +101,94 @@ function showLoadOverlay() {
 }
 
 /* UPDATE FUNCTIONS */
-function updateMeta(key, val) { resumeData.metadata[key] = val; }
-function updateContact(i, val) { resumeData.metadata.contacts[i].label = val; }
-function updateSectionTitle(sIdx, val) { resumeData.sections[sIdx].title = val; }
+function updateMeta(key, val) {
+    history.save();
+    resumeData.metadata[key] = val;
+}
+function updateContact(i, val) {
+    history.save();
+    resumeData.metadata.contacts[i].label = val;
+}
+function addContact() {
+    history.save();
+    resumeData.metadata.contacts.push({ label: "New Link", href: "#" });
+    renderHeader();
+}
+function removeContact(i) {
+    history.save();
+    resumeData.metadata.contacts.splice(i, 1);
+    renderHeader();
+}
+function removeTagline() {
+    history.save();
+    resumeData.metadata.tagline = "";
+    renderHeader();
+}
+function removeSummary() {
+    history.save();
+    resumeData.metadata.summary = "";
+    renderSummary();
+}
+function updateSectionTitle(sIdx, val) {
+    history.save();
+    resumeData.sections[sIdx].title = val;
+}
 
-function updateEdu(sIdx, eIdx, key, val) { resumeData.sections[sIdx].entries[eIdx][key] = val; }
+function updateEdu(sIdx, eIdx, key, val) {
+    history.save();
+    resumeData.sections[sIdx].entries[eIdx][key] = val;
+}
 function addEduEntry(sIdx) {
+    history.save();
     resumeData.sections[sIdx].entries.push({ institution: "New Institute", details: "Details", date: "202x" });
     renderSections();
 }
 
-function updateExp(sIdx, eIdx, key, val) { resumeData.sections[sIdx].entries[eIdx][key] = val; }
-function updateBullet(sIdx, eIdx, bIdx, val) { resumeData.sections[sIdx].entries[eIdx].bullets[bIdx] = val; }
+function updateExp(sIdx, eIdx, key, val) {
+    history.save();
+    resumeData.sections[sIdx].entries[eIdx][key] = val;
+}
+function updateBullet(sIdx, eIdx, bIdx, val) {
+    history.save();
+    resumeData.sections[sIdx].entries[eIdx].bullets[bIdx] = val;
+}
 function addBullet(sIdx, eIdx) {
+    history.save();
     resumeData.sections[sIdx].entries[eIdx].bullets.push("New bullet point");
     renderSections();
 }
 function removeBullet(sIdx, eIdx, bIdx) {
+    history.save();
     resumeData.sections[sIdx].entries[eIdx].bullets.splice(bIdx, 1);
     renderSections();
 }
 function addExpEntry(sIdx) {
+    history.save();
     resumeData.sections[sIdx].entries.push({ organization: "New Org", date: "Date", role: "Role", bullets: ["Initial bullet"] });
     renderSections();
 }
 
-function updateColBullet(sIdx, bIdx, val) { resumeData.sections[sIdx].bullets[bIdx] = val; }
+function updateColBullet(sIdx, bIdx, val) {
+    history.save();
+    resumeData.sections[sIdx].bullets[bIdx] = val;
+}
 function addColBullet(sIdx) {
+    history.save();
     resumeData.sections[sIdx].bullets.push("New item");
     renderSections();
 }
 function removeColBullet(sIdx, bIdx) {
+    history.save();
     resumeData.sections[sIdx].bullets.splice(bIdx, 1);
     renderSections();
 }
 
-function updateVenture(sIdx, eIdx, key, val) { resumeData.sections[sIdx].entries[eIdx][key] = val; }
+function updateVenture(sIdx, eIdx, key, val) {
+    history.save();
+    resumeData.sections[sIdx].entries[eIdx][key] = val;
+}
 function addVentureEntry(sIdx) {
+    history.save();
     resumeData.sections[sIdx].entries.push({ name: "New Venture", tag: "Tech", description: "Desc" });
     renderSections();
 }
@@ -104,28 +196,43 @@ function addVentureEntry(sIdx) {
 function updateSkill(sIdx, iIdx, val) {
     const parts = val.split(':');
     if (parts.length > 1) {
+        history.save();
         resumeData.sections[sIdx].items[iIdx].label = parts[0].replace('<strong>', '').replace('</strong>', '').trim();
         resumeData.sections[sIdx].items[iIdx].value = parts.slice(1).join(':').trim();
     }
 }
 function addSkill(sIdx) {
+    history.save();
     resumeData.sections[sIdx].items.push({ label: "Category", value: "Skill 1, Skill 2" });
     renderSections();
 }
 function removeSkill(sIdx, iIdx) {
+    history.save();
     resumeData.sections[sIdx].items.splice(iIdx, 1);
     renderSections();
 }
 
 function removeSection(sIdx) {
     if (confirm('Are you sure you want to remove this entire section?')) {
+        history.save();
         resumeData.sections.splice(sIdx, 1);
         renderSections();
     }
 }
 
+function moveSection(sIdx, direction) {
+    const newIdx = sIdx + direction;
+    if (newIdx < 0 || newIdx >= resumeData.sections.length) return;
+    history.save();
+    const temp = resumeData.sections[sIdx];
+    resumeData.sections[sIdx] = resumeData.sections[newIdx];
+    resumeData.sections[newIdx] = temp;
+    renderSections();
+}
+
 function removeEntry(sIdx, eIdx) {
     if (confirm('Are you sure you want to remove this entry?')) {
+        history.save();
         resumeData.sections[sIdx].entries.splice(eIdx, 1);
         renderSections();
     }
@@ -136,8 +243,17 @@ function addNewSection() {
     modal.className = 'modal-overlay';
     modal.innerHTML = `
         <div class="modal">
-          <h3>Add New Section</h3>
+          <h3>Add Element</h3>
           <div class="modal-options">
+            <button class="modal-btn" onclick="restoreHeader('tagline')">
+              <strong>Tagline</strong>
+              <span>Sub-header under your name</span>
+            </button>
+            <button class="modal-btn" onclick="restoreHeader('summary')">
+              <strong>Professional Summary</strong>
+              <span>Brief intro paragraph</span>
+            </button>
+            <div style="border-top:1px solid #eee; margin:10px 0; padding-top:10px; font-size:11px; color:#999; text-transform:uppercase; letter-spacing:1px">Resume Sections</div>
             <button class="modal-btn" onclick="createSection('experience_details', 'Professional Experience')">
               <strong>Professional Experience</strong>
               <span>Org name, date, role, and bullet points</span>
@@ -178,9 +294,19 @@ function addNewSection() {
             newSec.items = [{ label: "Category", value: "Skill 1" }];
         }
 
+        history.save();
         resumeData.sections.push(newSec);
         modal.remove();
         renderSections();
+    };
+
+    window.restoreHeader = (type) => {
+        history.save();
+        if (type === 'tagline') resumeData.metadata.tagline = "Your Tagline Here";
+        if (type === 'summary') resumeData.metadata.summary = "Your summary here...";
+        modal.remove();
+        renderHeader();
+        renderSummary();
     };
 }
 
@@ -195,6 +321,7 @@ function applySettings() {
 }
 
 function updateSettings() {
+    history.save();
     resumeData.settings.marginX = parseFloat(document.getElementById('margin-x').value);
     resumeData.settings.marginY = parseFloat(document.getElementById('margin-y').value);
     resumeData.settings.fontSize = parseInt(document.getElementById('font-size').value);
@@ -283,6 +410,30 @@ function saveData() {
         modal.remove();
     };
 }
+
+// Keyboard Shortcuts
+document.addEventListener('keydown', (e) => {
+    if (!editMode) return;
+
+    const isZ = e.key.toLowerCase() === 'z';
+    const isY = e.key.toLowerCase() === 'y';
+    const ctrlOrCmd = e.ctrlKey || e.metaKey;
+    const shift = e.shiftKey;
+
+    if (ctrlOrCmd && isZ) {
+        e.preventDefault();
+        if (shift) {
+            history.redo();
+        } else {
+            history.undo();
+        }
+    }
+
+    if (ctrlOrCmd && isY) {
+        e.preventDefault();
+        history.redo();
+    }
+});
 
 // Global entry point
 document.addEventListener('DOMContentLoaded', init);

@@ -3,46 +3,70 @@
  */
 
 function renderResume() {
-    renderHeader();
-    renderSummary();
-    renderSections();
+  renderHeader();
+  renderSummary();
+  renderSections();
 }
 
 function renderHeader() {
-    const root = document.getElementById('header-root');
-    const m = resumeData.metadata;
-    root.innerHTML = `
+  const root = document.getElementById('header-root');
+  const m = resumeData.metadata;
+
+  const taglineHtml = (m.tagline || editMode) ? `
+        <div class="tagline-wrap" style="position:relative">
+            <p class="tagline" contenteditable="${editMode}" onblur="updateMeta('tagline', this.innerText)">${m.tagline}</p>
+            ${editMode ? `<button class="del-inline" title="Remove tagline" onclick="removeTagline()">✕</button>` : ''}
+        </div>
+    ` : '';
+
+  const contactsHtml = `<div class="contacts">
+        ${m.contacts.map((c, i) => `
+            <div class="contact-item" style="position:relative; display:inline-block">
+                <a href="${c.href}" contenteditable="${editMode}" onblur="updateContact(${i}, this.innerText)">${c.label}</a>
+                ${editMode ? `<button class="del-inline" title="Remove contact" onclick="removeContact(${i})">✕</button>` : ''}
+                ${i < m.contacts.length - 1 ? '<span>|</span>' : ''}
+            </div>
+        `).join('')}
+        ${editMode ? `<button class="add-btn small" style="margin-left:0.5rem" onclick="addContact()">+ link</button>` : ''}
+    </div>`;
+
+  root.innerHTML = `
       <div class="header">
         <h1 contenteditable="${editMode}" onblur="updateMeta('name', this.innerText)">${m.name}</h1>
-        <p class="tagline" contenteditable="${editMode}" onblur="updateMeta('tagline', this.innerText)">${m.tagline}</p>
-        <div class="contacts">
-          ${m.contacts.map((c, i) => `
-            <a href="${c.href}" contenteditable="${editMode}" onblur="updateContact(${i}, this.innerText)">${c.label}</a>
-            ${i < m.contacts.length - 1 ? '<span>|</span>' : ''}
-          `).join('')}
-        </div>
+        ${taglineHtml}
+        ${contactsHtml}
       </div>
     `;
 }
 
 function renderSummary() {
-    const root = document.getElementById('summary-root');
-    root.innerHTML = `
-      <p class="summary" contenteditable="${editMode}" onblur="updateMeta('summary', this.innerText)">
-        ${resumeData.metadata.summary}
-      </p>
+  const root = document.getElementById('summary-root');
+  if (!resumeData.metadata.summary && !editMode) {
+    root.innerHTML = '';
+    return;
+  }
+  root.innerHTML = `
+      <div class="summary-wrap" style="position:relative">
+        <p class="summary" contenteditable="${editMode}" onblur="updateMeta('summary', this.innerText)">
+            ${resumeData.metadata.summary}
+        </p>
+        ${editMode ? `<button class="del-inline" title="Remove summary" onclick="removeSummary()">✕</button>` : ''}
+      </div>
     `;
 }
 
 function renderSections() {
-    const root = document.getElementById('sections-root');
-    root.innerHTML = '';
-    resumeData.sections.forEach((section, sIdx) => {
-        const sectionEl = document.createElement('div');
-        sectionEl.className = 'section-wrapper';
+  const root = document.getElementById('sections-root');
+  root.innerHTML = '';
+  resumeData.sections.forEach((section, sIdx) => {
+    const sectionEl = document.createElement('div');
+    sectionEl.className = 'section-wrapper';
 
-        let content = `
+    let content = `
         <div class="section-ctrl">
+          <button class="up-section" title="Move Up" onclick="moveSection(${sIdx}, -1)">↑</button>
+          <button class="down-section" title="Move Down" onclick="moveSection(${sIdx}, 1)">↓</button>
+          <div style="height:5px"></div>
           <button class="del-section" title="Remove entire section" onclick="removeSection(${sIdx})">✕</button>
         </div>
         <section>
@@ -51,14 +75,14 @@ function renderSections() {
         </section>
       `;
 
-        sectionEl.innerHTML = content;
-        root.appendChild(sectionEl);
-    });
+    sectionEl.innerHTML = content;
+    root.appendChild(sectionEl);
+  });
 }
 
 function renderSectionContent(section, sIdx) {
-    if (section.type === 'education') {
-        return `
+  if (section.type === 'education') {
+    return `
         <table class="edu-table">
           ${section.entries.map((e, eIdx) => `
             <tr class="entry">
@@ -71,8 +95,8 @@ function renderSectionContent(section, sIdx) {
         </table>
         ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addEduEntry(${sIdx})"><span>+</span> Add Education Entry</button></div>` : ''}
       `;
-    } else if (section.type === 'experience_details') {
-        return `
+  } else if (section.type === 'experience_details') {
+    return `
         ${section.entries.map((e, eIdx) => `
           <div class="entry">
             ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
@@ -89,13 +113,13 @@ function renderSectionContent(section, sIdx) {
                 </li>
               `).join('')}
             </ul>
-            ${editMode ? `<div class="add-action-area" style="border:none; text-align:left; padding-left:1.2rem"><button class="add-btn" onclick="addBullet(${sIdx}, ${eIdx})"><span>+</span> Add Bullet Point</button></div>` : ''}
+            ${editMode ? `<div class="add-action-area compact" style="padding-left:1.2rem"><button class="add-btn small" onclick="addBullet(${sIdx}, ${eIdx})"><span>+</span> Add Bullet Point</button></div>` : ''}
           </div>
         `).join('')}
         ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addExpEntry(${sIdx})"><span>+</span> Add Professional Entry</button></div>` : ''}
       `;
-    } else if (section.type === 'bullets_two_columns') {
-        return `
+  } else if (section.type === 'bullets_two_columns') {
+    return `
         <ul class="two-col">
           ${section.bullets.map((b, bIdx) => `
             <li contenteditable="${editMode}" onblur="updateColBullet(${sIdx}, ${bIdx}, this.innerText)">
@@ -106,8 +130,8 @@ function renderSectionContent(section, sIdx) {
         </ul>
         ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addColBullet(${sIdx})"><span>+</span> Add List Item</button></div>` : ''}
       `;
-    } else if (section.type === 'ventures') {
-        return `
+  } else if (section.type === 'ventures') {
+    return `
         ${section.entries.map((e, eIdx) => `
           <div class="venture">
             ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
@@ -118,8 +142,8 @@ function renderSectionContent(section, sIdx) {
         `).join('')}
         ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addVentureEntry(${sIdx})"><span>+</span> Add Venture</button></div>` : ''}
       `;
-    } else if (section.type === 'skills') {
-        return `
+  } else if (section.type === 'skills') {
+    return `
         <div class="skills-grid">
           ${section.items.map((item, iIdx) => `
             <div contenteditable="${editMode}" style="position:relative" onblur="updateSkill(${sIdx}, ${iIdx}, this.innerHTML)">
@@ -130,6 +154,6 @@ function renderSectionContent(section, sIdx) {
         </div>
         ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addSkill(${sIdx})"><span>+</span> Add Skill Category</button></div>` : ''}
       `;
-    }
-    return '';
+  }
+  return '';
 }
