@@ -6,24 +6,28 @@
 }
 
 body.editing .section-wrapper {
-    margin: -12px -40px -12px 0;
-    /* Stabilize document flow with matching offset */
-    padding: 12px 40px 12px 0;
-    transition: background 0.15s ease;
+    margin-left: -65px;
+    margin-right: 0;
+    margin-top: -12px;
+    margin-bottom: -12px;
+    padding-left: 65px;
+    padding-right: 0;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    transition: none;
 }
 
 body.editing .section-wrapper:hover {
-    background: rgba(26, 63, 160, 0.035);
-    border-radius: 4px;
+    background-image: linear-gradient(to right, transparent 65px, rgba(26, 63, 160, 0.035) 65px);
+    border-radius: 6px;
 }
 
 /* Section Management (Left Side) */
 body.editing .section-ctrl {
     position: absolute;
-    left: -42px;
-    /* Close to section area */
-    top: -5px;
-    /* Start slightly above first line */
+    left: 5px;
+    /* Within 65px gutter = 60px left of content */
+    top: 5px;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -32,17 +36,6 @@ body.editing .section-ctrl {
     flex-direction: column;
     gap: 4px;
     z-index: 100;
-}
-
-body.editing .section-ctrl::before {
-    content: '';
-    position: absolute;
-    top: -40px;
-    bottom: -40px;
-    left: -10px;
-    right: -60px;
-    /* Extends well into the section wrapper area */
-    z-index: -1;
 }
 
 body.editing .section-wrapper:hover>.section-ctrl,
@@ -85,17 +78,37 @@ body.editing .section-ctrl:hover {
 .venture,
 .skills-grid>div {
     position: relative;
-    transition: background 0.2s;
+    transition: none;
+    /* Transition handled by pseudo-element */
+}
+
+body.editing .entry,
+body.editing .venture,
+body.editing .skills-grid>div {
+    margin-right: -60px;
+    padding-right: 60px;
 }
 
 body.editing .entry:hover,
 body.editing .venture:hover {
-    background: rgba(0, 0, 0, 0.01);
+    background-image: linear-gradient(to left, transparent 60px, rgba(0, 0, 0, 0.01) 60px);
+}
+
+/* Table specific override to keep buttons consistent and sticky */
+body.editing .edu-table {
+    width: calc(100% + 60px);
+    margin-right: -60px;
+}
+
+body.editing .edu-table td:last-child {
+    width: 60px !important;
+    padding: 0 !important;
 }
 
 .entry-ctrl {
     position: absolute;
-    right: -32px;
+    right: 17px;
+    /* Shifted left (inside) */
     top: 0;
     opacity: 0;
     display: flex;
@@ -106,16 +119,8 @@ body.editing .venture:hover {
     z-index: 100;
 }
 
-/* Interaction Bridge */
-.entry-ctrl::before,
-.bullet-ctrl::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -20px;
-    right: 0;
-    bottom: -10px;
-}
+/* Interaction Bridge - Removed to prevent blocking clicks */
+/* We now rely on padding to keep the hover state */
 
 body.editing .entry:hover>.entry-ctrl,
 body.editing .venture:hover>.entry-ctrl,
@@ -135,7 +140,7 @@ body.editing .edu-table tr:hover .entry-ctrl {
     color: #999;
     font-size: 11px;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
@@ -161,20 +166,17 @@ ul.two-col li,
     border-radius: 3px;
 }
 
+body.editing ul.bullets li,
+body.editing ul.two-col li {
+    margin-right: -60px;
+    padding-right: 60px;
+}
+
 body.editing ul.bullets li:hover,
 body.editing ul.two-col li:hover,
 body.editing .skills-grid>div:hover {
-    background: rgba(0, 0, 0, 0.025);
-}
-
-.bullet-ctrl {
-    position: absolute;
-    right: -12px;
-    top: 0;
-    opacity: 0;
-    transition: opacity 0.12s;
-    pointer-events: none;
-    z-index: 100;
+    background-image: linear-gradient(to left, transparent 60px, rgba(0, 0, 0, 0.025) 60px);
+    border-radius: 3px;
 }
 
 body.editing li:hover>.bullet-ctrl,
@@ -183,12 +185,25 @@ body.editing .skills-grid>div:hover>.bullet-ctrl {
     pointer-events: auto;
 }
 
+/* Ensure bullet controls don't block entry controls and stay within hover area */
+.bullet-ctrl {
+    position: absolute;
+    right: 42px;
+    /* Shifted left (inside) */
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.12s;
+    pointer-events: none;
+    z-index: 100;
+}
+
 .bullet-ctrl button {
     width: 20px;
     height: 20px;
     border-radius: 4px;
     font-size: 9px;
     color: #aaa;
+    display: inline-flex;
 }
 
 /* Inline UI & Add Buttons */
