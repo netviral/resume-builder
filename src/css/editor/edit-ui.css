@@ -1,0 +1,265 @@
+/* ── EDIT UI COMPONENTS & INTERACTION ── */
+
+/* Section Context */
+.section-wrapper {
+    position: relative;
+}
+
+body.editing .section-wrapper {
+    margin-right: -40px;
+    padding-right: 40px;
+}
+
+body.editing .section-wrapper:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+/* Section Management (Left Side) */
+.section-ctrl {
+    position: absolute;
+    left: -45px;
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+body.editing .section-wrapper:hover>.section-ctrl {
+    opacity: 1;
+}
+
+.section-ctrl button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: white;
+    color: #888;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.section-ctrl button.del-section:hover {
+    background: var(--editor-danger);
+    color: white;
+    border-color: var(--editor-danger);
+}
+
+.section-ctrl button.up-section:hover,
+.section-ctrl button.down-section:hover {
+    background: var(--editor-accent);
+    color: white;
+    border-color: var(--editor-accent);
+}
+
+/* Entry & Bullet Controls (Right Side) */
+.entry,
+.venture,
+.skills-grid>div {
+    position: relative;
+    transition: background 0.2s;
+}
+
+body.editing .entry:hover,
+body.editing .venture:hover {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.entry-ctrl {
+    position: absolute;
+    right: -32px;
+    top: 0;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* Interaction Bridge */
+.entry-ctrl::before,
+.bullet-ctrl::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -20px;
+    right: 0;
+    bottom: -10px;
+}
+
+body.editing .entry:hover>.entry-ctrl,
+body.editing .venture:hover>.entry-ctrl,
+body.editing .edu-table tr:hover .entry-ctrl {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.entry-ctrl button,
+.bullet-ctrl button,
+.del-inline {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: white;
+    color: #999;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 101;
+}
+
+.entry-ctrl button:hover,
+.bullet-ctrl button:hover,
+.del-inline:hover {
+    background: #fee2e2 !important;
+    color: var(--editor-danger) !important;
+    border-color: #fca5a5 !important;
+}
+
+/* Bullet Controls */
+ul.bullets li,
+ul.two-col li,
+.skills-grid>div {
+    position: relative;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+    border-radius: 3px;
+}
+
+body.editing ul.bullets li:hover,
+body.editing ul.two-col li:hover,
+body.editing .skills-grid>div:hover {
+    background: rgba(0, 0, 0, 0.025);
+}
+
+.bullet-ctrl {
+    position: absolute;
+    right: -12px;
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.12s;
+    pointer-events: none;
+    z-index: 100;
+}
+
+body.editing li:hover>.bullet-ctrl,
+body.editing .skills-grid>div:hover>.bullet-ctrl {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bullet-ctrl button {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    font-size: 9px;
+    color: #aaa;
+}
+
+/* Inline UI & Add Buttons */
+.del-inline {
+    width: 14px;
+    height: 14px;
+    font-size: 8px;
+    border-radius: 50%;
+    opacity: 0;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: none;
+    z-index: 10;
+}
+
+body.editing .tagline-wrap:hover .del-inline,
+body.editing .contact-item:hover .del-inline,
+body.editing .summary-wrap:hover .del-inline {
+    display: flex;
+    opacity: 1;
+}
+
+.add-action-area {
+    margin: 15px 0;
+    border: 1px dashed #ddd;
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+    display: none;
+}
+
+.add-action-area.compact {
+    margin: 4px 0 0 0;
+    padding: 2px 0;
+    border: none;
+    text-align: left;
+}
+
+body.editing .add-action-area {
+    display: block;
+}
+
+.add-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: white;
+    color: #666;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.add-btn.small {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-color: #eee;
+    color: #999;
+}
+
+.add-btn:hover {
+    border-color: var(--editor-accent);
+    color: var(--editor-accent);
+    background: rgba(26, 63, 160, 0.05);
+}
+
+#add-section-btn {
+    display: none;
+    margin: 30px 0;
+    width: 100%;
+    padding: 15px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background: transparent;
+    color: #999;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+body.editing #add-section-btn {
+    display: block;
+}
+
+#add-section-btn:hover {
+    border-color: var(--editor-accent);
+    color: var(--editor-accent);
+    background: rgba(26, 63, 160, 0.03);
+    transform: translateY(-2px);
+}

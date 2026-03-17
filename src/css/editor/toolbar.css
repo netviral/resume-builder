@@ -1,0 +1,68 @@
+/* ── TOOLBAR STYLES ── */
+#toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #1a3fa0;
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: white;
+}
+
+#toolbar .tb-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 5px;
+}
+
+.tb-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+
+.tb-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.tb-btn.primary {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.tb-btn.primary:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.tb-sep {
+    width: 1px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 0.2rem;
+}
+
+#edit-mode-indicator {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-left: auto;
+}
+
+#edit-mode-indicator.active {
+    color: #7dd3b0;
+}

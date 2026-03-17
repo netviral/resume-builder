@@ -1,0 +1,19 @@
+/* ── PRINT OVERRIDES ── */
+@media print {
+
+    #toolbar,
+    .editor-controls,
+    .section-ctrl,
+    .entry-ctrl,
+    .bullet-ctrl,
+    .add-action-area,
+    #add-section-btn,
+    .modal-overlay {
+        display: none !important;
+    }
+
+    body.editing [contenteditable] {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+}

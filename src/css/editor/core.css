@@ -1,0 +1,26 @@
+/* ── CORE EDITOR VARIABLES & BASE STYLES ── */
+:root {
+    --editor-bg: #f8f9fa;
+    --editor-border: #dee2e6;
+    --editor-text: #666;
+    --editor-accent: #1a3fa0;
+    --editor-danger: #c0392b;
+    --editor-success: #166534;
+}
+
+body.editing [contenteditable] {
+    outline: none;
+    border-radius: 2px;
+    transition: background 0.12s, box-shadow 0.12s;
+}
+
+body.editing [contenteditable]:hover {
+    background: rgba(26, 63, 160, 0.05);
+    box-shadow: 0 0 0 2px rgba(26, 63, 160, 0.2);
+    cursor: text;
+}
+
+body.editing [contenteditable]:focus {
+    background: #fffbe6;
+    box-shadow: 0 0 0 2px #d4a916;
+}

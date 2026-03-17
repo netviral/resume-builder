@@ -10,7 +10,14 @@
     rel="stylesheet">
   <link rel="stylesheet" href="src/css/themes/base.css">
   <link rel="stylesheet" id="theme-link" href="src/css/themes/default.css">
-  <link rel="stylesheet" href="src/css/editor.css">
+
+  <!-- Modular Editor Styles -->
+  <link rel="stylesheet" href="src/css/editor/core.css">
+  <link rel="stylesheet" href="src/css/editor/toolbar.css">
+  <link rel="stylesheet" href="src/css/editor/controls.css">
+  <link rel="stylesheet" href="src/css/editor/edit-ui.css">
+  <link rel="stylesheet" href="src/css/editor/modals.css">
+  <link rel="stylesheet" href="src/css/editor/print.css">
 </head>
 
 <body>
@@ -61,7 +68,12 @@
   <script src="data.js"></script>
   <script src="src/js/themes.js"></script>
   <script src="src/js/renderer.js"></script>
-  <script src="src/js/editor.js"></script>
+  <!-- Modular Editor Logic -->
+  <script src="src/js/editor/state.js"></script>
+  <script src="src/js/editor/core.js"></script>
+  <script src="src/js/editor/settings.js"></script>
+  <script src="src/js/editor/sections-crud.js"></script>
+  <script src="src/js/editor/entries-crud.js"></script>
 </body>
 
 </html>
