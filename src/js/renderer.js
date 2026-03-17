@@ -48,12 +48,16 @@ function renderSections() {
     const schema = window.sectionSchema[section.type];
     const showTitle = schema ? !schema.hideTitle : true;
 
-    let content = `
+    const ctrlHtml = editMode ? `
         <div class="section-ctrl">
           <button class="up-section" title="Move Up" onclick="moveSection(${sIdx}, -1)">↑</button>
           <button class="down-section" title="Move Down" onclick="moveSection(${sIdx}, 1)">↓</button>
           <button class="del-section" title="Remove entire section" onclick="removeSection(${sIdx})">✕</button>
         </div>
+    ` : '';
+
+    let content = `
+        ${ctrlHtml}
         <section>
           ${showTitle ? `<div class="section-title" contenteditable="${editMode}" onblur="updateSectionTitle(${sIdx}, this.innerText)">${section.title}</div>` : ''}
           <div class="section-content">

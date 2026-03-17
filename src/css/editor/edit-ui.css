@@ -6,45 +6,50 @@
 }
 
 body.editing .section-wrapper {
-    margin: -25px -40px -25px 0;
-    /* -25px offset for 25px padding to keep layout stable */
-    padding: 25px 40px 25px 0;
-    transition: background 0.1s ease;
+    margin: -12px -40px -12px 0;
+    /* Stabilize document flow with matching offset */
+    padding: 12px 40px 12px 0;
+    transition: background 0.15s ease;
 }
 
 body.editing .section-wrapper:hover {
-    background: rgba(26, 63, 160, 0.03);
-    /* More visible blue tint on hover */
+    background: rgba(26, 63, 160, 0.035);
     border-radius: 4px;
 }
 
 /* Section Management (Left Side) */
-.section-ctrl {
+body.editing .section-ctrl {
     position: absolute;
-    left: -48px;
-    top: 15px;
+    left: -42px;
+    /* Close to section area */
+    top: -5px;
+    /* Start slightly above first line */
     opacity: 0;
-    transition: opacity 0.2s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s, visibility 0.2s;
     display: flex;
     flex-direction: column;
     gap: 4px;
     z-index: 100;
 }
 
-.section-ctrl::before {
+body.editing .section-ctrl::before {
     content: '';
     position: absolute;
-    top: -60px;
-    bottom: -60px;
-    left: -15px;
-    right: -80px;
-    /* Big bridge to reach into the section content */
+    top: -40px;
+    bottom: -40px;
+    left: -10px;
+    right: -60px;
+    /* Extends well into the section wrapper area */
     z-index: -1;
 }
 
 body.editing .section-wrapper:hover>.section-ctrl,
-.section-ctrl:hover {
+body.editing .section-ctrl:hover {
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .section-ctrl button {
