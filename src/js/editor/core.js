@@ -7,17 +7,16 @@ function toggleEdit() {
     document.body.classList.toggle('editing', editMode);
     const btn = document.getElementById('toggle-edit-btn');
     const indicator = document.getElementById('edit-mode-indicator');
+
     if (editMode) {
-        btn.textContent = '✓ Done Editing';
-        btn.style.background = 'rgba(125,211,176,0.25)';
-        btn.style.borderColor = '#7dd3b0';
-        indicator.textContent = 'edit mode';
+        btn.innerHTML = '💾 Save';
+        btn.classList.add('save-state');
+        indicator.textContent = 'editing';
         indicator.classList.add('active');
     } else {
-        btn.textContent = '✏ Edit Mode';
-        btn.style.background = '';
-        btn.style.borderColor = '';
-        indicator.textContent = 'view mode';
+        btn.innerHTML = '✏ Edit';
+        btn.classList.remove('save-state');
+        indicator.textContent = 'viewing';
         indicator.classList.remove('active');
     }
     renderResume();
