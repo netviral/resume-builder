@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Editor</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" id="theme-link" href="src/css/themes/default.css">
+  <link rel="stylesheet" href="src/css/editor.css">
+</head>
+
+<body>
+
+  <!-- TOOLBAR -->
+  <div id="toolbar">
+    <span class="tb-label">Resume Builder</span>
+    <button class="tb-btn primary" id="toggle-edit-btn" onclick="toggleEdit()">✏ Edit Mode</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" onclick="exportPDF()">↓ Export PDF</button>
+    <button class="tb-btn" onclick="saveData()">💾 Save JSON</button>
+    <span id="edit-mode-indicator">view mode</span>
+  </div>
+
+  <!-- EDITOR CONTROLS -->
+  <div class="editor-controls">
+    <label for="margin-x">Margin X (rem):</label>
+    <input type="number" id="margin-x" step="0.1" value="3.0" onchange="updateSettings()">
+
+    <label for="margin-y">Margin Y (rem):</label>
+    <input type="number" id="margin-y" step="0.1" value="2.8" onchange="updateSettings()">
+
+    <label for="font-size">Font Size (px):</label>
+    <input type="number" id="font-size" value="15" onchange="updateSettings()">
+
+    <label for="theme-selector">Theme:</label>
+    <select id="theme-selector" onchange="changeTheme()">
+      <option value="src/css/themes/default.css">Default Blue</option>
+      <option value="src/css/themes/dark.css">Modern Dark</option>
+    </select>
+  </div>
+
+  <div id="resume-wrap">
+    <div class="page" id="resume-page">
+      <!-- Header will be rendered here -->
+      <div id="header-root"></div>
+
+      <!-- Summary will be rendered here -->
+      <div id="summary-root"></div>
+
+      <!-- Sections will be rendered here -->
+      <div id="sections-root"></div>
+
+      <button id="add-section-btn" onclick="addNewSection()">+ add new section</button>
+    </div>
+  </div>
+
+  <!-- Data and Logic -->
+  <script src="data.js"></script>
+  <script src="src/js/renderer.js"></script>
+  <script src="src/js/editor.js"></script>
+</body>
+
+</html>

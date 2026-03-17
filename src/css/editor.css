@@ -1,0 +1,409 @@
+/* ── EDITOR INTERFACE STYLES ── */
+
+:root {
+    --editor-bg: #f8f9fa;
+    --editor-border: #dee2e6;
+    --editor-text: #666;
+    --editor-accent: #1a3fa0;
+    --editor-danger: #c0392b;
+    --editor-success: #166534;
+}
+
+#toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #1a3fa0;
+    padding: 0.55rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: white;
+}
+
+#toolbar .tb-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 0.3rem;
+}
+
+.tb-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+
+.tb-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.tb-btn.primary {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.tb-btn.primary:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.tb-sep {
+    width: 1px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 0.2rem;
+}
+
+#edit-mode-indicator {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-left: auto;
+}
+
+#edit-mode-indicator.active {
+    color: #7dd3b0;
+}
+
+.editor-controls {
+    padding: 0.6rem 1.5rem;
+    background: var(--editor-bg);
+    border-bottom: 1px solid var(--editor-border);
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--editor-text);
+    z-index: 999;
+}
+
+.editor-controls label {
+    font-weight: 500;
+}
+
+.editor-controls input,
+.editor-controls select {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    font-family: inherit;
+}
+
+.editor-controls input[type="number"] {
+    width: 65px;
+}
+
+/* ── EDIT MODE PAGE STYLES ── */
+body.editing [contenteditable] {
+    outline: none;
+    border-radius: 2px;
+    transition: background 0.12s, box-shadow 0.12s;
+}
+
+body.editing [contenteditable]:hover {
+    background: rgba(26, 63, 160, 0.05);
+    box-shadow: 0 0 0 2px rgba(26, 63, 160, 0.2);
+    cursor: text;
+}
+
+body.editing [contenteditable]:focus {
+    background: #fffbe6;
+    box-shadow: 0 0 0 2px #d4a916;
+}
+
+/* ── COMPONENT CONTROLS ── */
+
+/* Section Controls */
+.section-wrapper {
+    position: relative;
+}
+
+body.editing .section-wrapper {
+    margin-right: -40px;
+    padding-right: 40px;
+}
+
+body.editing .section-wrapper:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.section-ctrl {
+    position: absolute;
+    left: -45px;
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+body.editing .section-wrapper:hover>.section-ctrl {
+    opacity: 1;
+}
+
+.section-ctrl button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: white;
+    color: #888;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.section-ctrl button.del-section:hover {
+    background: var(--editor-danger);
+    color: white;
+    border-color: var(--editor-danger);
+}
+
+/* Entry Controls */
+.entry {
+    position: relative;
+}
+
+body.editing .entry:hover {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.entry-ctrl {
+    position: absolute;
+    right: -35px;
+    top: 0;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: opacity 0.2s;
+}
+
+body.editing .entry:hover>.entry-ctrl {
+    opacity: 1;
+}
+
+.entry-ctrl button {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    background: white;
+    color: #999;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.entry-ctrl button.del-entry:hover {
+    background: #fee2e2;
+    color: var(--editor-danger);
+    border-color: #fca5a5;
+}
+
+/* Bullet Controls */
+body.editing ul.bullets li,
+body.editing ul.two-col li {
+    position: relative;
+}
+
+.bullet-ctrl {
+    position: absolute;
+    right: -25px;
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.12s;
+}
+
+body.editing li:hover>.bullet-ctrl {
+    opacity: 1;
+}
+
+.bullet-ctrl button {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid #eee;
+    background: white;
+    cursor: pointer;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+}
+
+.bullet-ctrl button:hover {
+    background: #fee2e2;
+    color: var(--editor-danger);
+    border-color: #fca5a5;
+}
+
+/* Add Buttons */
+.add-action-area {
+    margin: 1rem 0;
+    border: 1px dashed #ddd;
+    border-radius: 6px;
+    padding: 0.8rem;
+    text-align: center;
+    display: none;
+}
+
+body.editing .add-action-area {
+    display: block;
+}
+
+.add-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: white;
+    color: #666;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.add-btn:hover {
+    border-color: var(--editor-accent);
+    color: var(--editor-accent);
+    background: rgba(26, 63, 160, 0.05);
+}
+
+.add-btn svg {
+    width: 12px;
+    height: 12px;
+}
+
+#add-section-btn {
+    display: none;
+    margin: 2rem 0;
+    width: 100%;
+    padding: 1rem;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background: transparent;
+    color: #999;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+body.editing #add-section-btn {
+    display: block;
+}
+
+#add-section-btn:hover {
+    border-color: var(--editor-accent);
+    color: var(--editor-accent);
+    background: rgba(26, 63, 160, 0.03);
+    transform: translateY(-2px);
+}
+
+/* ── MODALS ── */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+
+.modal {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+}
+
+.modal h3 {
+    margin-bottom: 1.5rem;
+    font-family: sans-serif;
+}
+
+.modal-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.modal-btn {
+    text-align: left;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: #f9f9f9;
+    cursor: pointer;
+    font-family: sans-serif;
+    transition: all 0.2s;
+}
+
+.modal-btn:hover {
+    border-color: var(--editor-accent);
+    background: rgba(26, 63, 160, 0.05);
+}
+
+.modal-btn strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--editor-accent);
+}
+
+.modal-btn span {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* ── PRINT ── */
+@media print {
+
+    #toolbar,
+    .editor-controls,
+    .section-ctrl,
+    .entry-ctrl,
+    .bullet-ctrl,
+    .add-action-area,
+    #add-section-btn,
+    .modal-overlay {
+        display: none !important;
+    }
+
+    body.editing [contenteditable] {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+}
