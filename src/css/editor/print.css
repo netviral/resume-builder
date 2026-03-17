@@ -12,6 +12,21 @@
         display: none !important;
     }
 
+    #resume-wrap {
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .page {
+        box-shadow: none !important;
+        background-image: none !important;
+    }
+
+    .page::after {
+        display: none !important;
+    }
+
     body.editing .section-wrapper {
         margin: 0 !important;
         padding: 0 !important;
