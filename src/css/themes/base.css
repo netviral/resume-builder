@@ -144,23 +144,31 @@ section {
 .edu-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
     font-size: 0.88rem;
 }
 
 .edu-table td {
-    padding: 0.18rem 0;
+    padding: 0.18rem 0.5rem 0.18rem 0;
     vertical-align: top;
 }
 
 .edu-table td:first-child {
     font-weight: 600;
-    width: 200px;
+    width: 33%;
+    padding-right: 1.2rem;
     color: var(--text);
 }
 
 .edu-table td:nth-child(2) {
     color: var(--gray);
-    padding-left: 1.5rem;
+    width: 45%;
+    padding-right: 1rem;
+}
+
+.edu-table td:nth-child(3) {
+    text-align: right;
+
 }
 
 .edu-table td:last-child {
