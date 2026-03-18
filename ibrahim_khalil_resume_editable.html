@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resume Editor</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="src/css/themes/base.css">
   <link rel="stylesheet" id="theme-link" href="src/css/themes/default.css">
@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="src/css/editor/edit-ui.css">
   <link rel="stylesheet" href="src/css/editor/modals.css">
   <link rel="stylesheet" href="src/css/editor/print.css">
+  <link rel="stylesheet" href="src/css/editor/ai-panel.css">
 </head>
 
 <body>
@@ -30,6 +31,11 @@
     <button class="tb-btn" onclick="exportPDF()">↓ Export PDF</button>
     <button class="tb-btn" onclick="saveData()">💾 Save JSON</button>
     <span id="edit-mode-indicator">viewing</span>
+
+    <!-- AI Toggle (auto-pushed right via margin-left: auto in CSS) -->
+    <button id="ai-toggle-btn" onclick="toggleAIPanel()" title="Open AI Assistant">
+      ✦ AI Assistant
+    </button>
   </div>
 
   <!-- EDITOR CONTROLS -->
@@ -49,17 +55,94 @@
     </select>
   </div>
 
-  <div id="resume-wrap">
-    <div class="page" id="resume-page">
-      <!-- Header will be rendered here -->
-      <div id="header-root"></div>
+  <!-- MAIN APP AREA -->
+  <div id="app-shell">
+    <div id="resume-wrap">
+      <div class="page" id="resume-page">
+        <!-- Header will be rendered here -->
+        <div id="header-root"></div>
 
-      <!-- Sections will be rendered here -->
-      <div id="sections-root"></div>
+        <!-- Sections will be rendered here -->
+        <div id="sections-root"></div>
 
-      <button id="add-section-btn" onclick="addNewSection()">+ add new section</button>
+        <button id="add-section-btn" onclick="addNewSection()">+ add new section</button>
+      </div>
     </div>
-  </div>
+  </div><!-- /#app-shell -->
+
+  <!-- AI ASSISTANT PANEL -->
+  <div id="ai-panel">
+
+    <!-- Panel Header -->
+    <div id="ai-panel-header">
+      <span class="ai-panel-title"><span class="ai-sparkle-neon"></span> AI Resume Assistant</span>
+      <button id="ai-panel-close" onclick="toggleAIPanel()" title="Close">✕</button>
+    </div>
+
+
+
+
+
+    <!-- Chat Messages -->
+    <div id="ai-messages">
+      <div class="ai-welcome">
+        <h3>AI Resume Assistant</h3>
+        <p>Attach context using <strong>+</strong>, then ask anything — rewrite bullets, add entries, tailor to a job,
+          and more.</p>
+      </div>
+    </div>
+
+    <!-- Input Area (now includes context actions) -->
+    <div id="ai-input-container">
+      <textarea id="ai-input" placeholder="Ask anything..." rows="1"></textarea>
+
+      <!-- Bottom Actions Row -->
+      <div id="ai-input-actions">
+        <!-- + Context Button -->
+        <div class="ai-plus-wrap">
+          <button class="ai-icon-btn" onclick="toggleContextMenu()" title="Add context">＋</button>
+          <div class="ai-dropdown" id="ai-context-menu">
+            <div class="ai-dropdown-item" onclick="sendFullResumeToAI()">Full Resume</div>
+            <div class="ai-dropdown-sep"></div>
+            <div class="ai-dropdown-item"
+              style="opacity:0.5; cursor:default; font-size:10.5px; color:rgba(255,255,255,0.3);">
+              Section (hover a section in edit mode)
+            </div>
+            <div class="ai-dropdown-item"
+              style="opacity:0.5; cursor:default; font-size:10.5px; color:rgba(255,255,255,0.3);">
+              Entry (hover an entry in edit mode)
+            </div>
+          </div>
+        </div>
+
+        <!-- Job Context Button -->
+        <div class="ai-plus-wrap" id="ai-job-picker-wrap">
+          <button class="ai-job-btn" onclick="toggleJobPicker()">
+            <span class="btn-arrow">^</span> Add Job
+          </button>
+          <div id="ai-job-picker">
+            <!-- Populated by ai-panel.js -->
+          </div>
+        </div>
+
+        <!-- JD Upload -->
+        <label class="ai-job-btn" title="Upload a JD file">
+          <span class="btn-arrow">^</span> Upload JD
+          <input type="file" id="ai-jd-upload" accept=".txt,.pdf,.doc,.docx" onchange="handleJDUpload(this)">
+        </label>
+
+        <!-- Send Button (Pushed Right) -->
+        <button id="ai-send-btn" onclick="sendAIMessage()" title="Send (Enter)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /#ai-panel -->
 
   <!-- Data and Logic -->
   <script src="data.js"></script>
@@ -72,6 +155,9 @@
   <script src="src/js/editor/settings.js"></script>
   <script src="src/js/editor/sections-crud.js"></script>
   <script src="src/js/editor/entries-crud.js"></script>
+  <!-- AI Assistant -->
+  <script src="src/js/editor/jobs.js"></script>
+  <script src="src/js/editor/ai-panel.js"></script>
 </body>
 
 </html>

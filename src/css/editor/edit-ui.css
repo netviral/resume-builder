@@ -18,7 +18,7 @@ body.editing .section-wrapper {
 }
 
 body.editing .section-wrapper:hover {
-    background-image: linear-gradient(to right, transparent 65px, rgba(26, 63, 160, 0.035) 65px);
+    background-image: linear-gradient(to right, transparent 65px, rgba(51, 65, 85, 0.04) 65px);
     border-radius: 6px;
 }
 
@@ -270,9 +270,9 @@ body.editing .add-action-area {
 }
 
 .add-btn:hover {
-    border-color: var(--editor-accent);
-    color: var(--editor-accent);
-    background: rgba(26, 63, 160, 0.05);
+    border-color: #334155;
+    color: #334155;
+    background: rgba(51, 65, 85, 0.06);
 }
 
 #add-section-btn {
@@ -295,8 +295,8 @@ body.editing #add-section-btn {
 }
 
 #add-section-btn:hover {
-    border-color: var(--editor-accent);
-    color: var(--editor-accent);
-    background: rgba(26, 63, 160, 0.03);
+    border-color: #334155;
+    color: #334155;
+    background: rgba(51, 65, 85, 0.04);
     transform: translateY(-2px);
 }

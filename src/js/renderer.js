@@ -76,6 +76,7 @@ function renderSections() {
 
     const ctrlHtml = editMode ? `
         <div class="section-ctrl">
+          <button class="ai-send-section-btn" title="Send Section to AI" onclick="sendSectionToAI('${section.id}')"></button>
           <button class="up-section" title="Move Up" onclick="moveSection(${sIdx}, -1)">↑</button>
           <button class="down-section" title="Move Down" onclick="moveSection(${sIdx}, 1)">↓</button>
           <button class="del-section" title="Remove entire section" onclick="removeSection(${sIdx})">✕</button>
@@ -201,7 +202,10 @@ function renderSectionContent(section, sIdx) {
               <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col2', this.innerText)">${e.col2 || ''}</td>
               <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col3', this.innerText)">${e.col3 || ''}</td>
               <td style="position:relative; width:0; padding:0">
-                 ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
+                 ${editMode ? `<div class="entry-ctrl">
+                    <button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>
+                    <button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button>
+                 </div>` : ''}
               </td>
             </tr>
           `).join('')}
@@ -212,7 +216,10 @@ function renderSectionContent(section, sIdx) {
     return `
         ${section.entries.map((e, eIdx) => `
           <div class="entry">
-            ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
+            ${editMode ? `<div class="entry-ctrl">
+                <button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>
+                <button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button>
+            </div>` : ''}
             <div class="entry-header">
               <span class="entry-org" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'heading', this.innerText)">${e.heading || ''}</span>
               <span class="entry-date" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'date', this.innerText)">${e.date || ''}</span>
@@ -247,7 +254,10 @@ function renderSectionContent(section, sIdx) {
     return `
         ${section.entries.map((e, eIdx) => `
           <div class="entry venture">
-            ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button></div>` : ''}
+            ${editMode ? `<div class="entry-ctrl">
+                <button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>
+                <button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button>
+            </div>` : ''}
             <strong contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'heading', this.innerText)">${e.heading || ''}</strong>
             <span class="tag" contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'subheading', this.innerText)">${e.subheading || ''}</span>
             <p contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'description', this.innerText)">${e.description || ''}</p>
@@ -260,7 +270,10 @@ function renderSectionContent(section, sIdx) {
         <div class="skills-grid">
           ${section.items.map((item, iIdx) => `
             <div class="entry" style="position:relative">
-              ${editMode ? `<div class="entry-ctrl"><button class="del-entry" title="Remove Item" onclick="removeSkill(${sIdx}, ${iIdx})">✕</button></div>` : ''}
+              ${editMode ? `<div class="entry-ctrl">
+                  <button class="ai-send-entry-btn" title="Send Item to AI" onclick="sendEntryToAI('${section.id}', ${iIdx})"></button>
+                  <button class="del-entry" title="Remove Item" onclick="removeSkill(${sIdx}, ${iIdx})">✕</button>
+              </div>` : ''}
               <div contenteditable="${editMode}" onblur="updateSkill(${sIdx}, ${iIdx}, this.innerHTML)">
                 <strong>${item.label}:</strong> ${item.value}
               </div>

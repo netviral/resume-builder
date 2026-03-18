@@ -3,14 +3,14 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: #1a3fa0;
-    /* Original dark blue */
+    background: #1e2433;
+    /* Dark slate */
     padding: 8px 24px;
     display: flex;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
     color: white;
 }
 
