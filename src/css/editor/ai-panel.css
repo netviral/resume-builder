@@ -116,39 +116,46 @@ body.ai-open #resume-wrap {
 
 /* ── ATTACHMENT CARDS (In-Chat Context) ── */
 .ai-attachment-card {
-    background: rgba(255, 255, 255, 0.04);
-    border: none;
-    /* No border as requested */
-    border-radius: 8px;
-    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    margin-bottom: 12px;
     overflow: hidden;
     animation: cardIn 0.2s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+    /* Important: Prevents cards from getting crushed */
 }
 
-@keyframes cardIn {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
-    }
+.ai-attachment-card.is-sent {
+    opacity: 0.85;
+    /* Less fading as requested */
+    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(255, 255, 255, 0.05);
+}
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.ai-attachment-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.ai-attachment-card.is-sent:hover {
+    transform: none;
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .ac-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 12px;
+    padding: 12px 14px;
     background: rgba(255, 255, 255, 0.02);
 }
 
 .ac-label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
-    color: #e2e8f0;
+    color: #f1f5f9;
 }
 
 .ac-actions {
@@ -457,6 +464,8 @@ body.ai-open #resume-wrap {
     flex-direction: column;
     gap: 3px;
     animation: msgIn 0.2s ease;
+    flex-shrink: 0;
+    /* Prevents shrinking in the chat container */
 }
 
 @keyframes msgIn {

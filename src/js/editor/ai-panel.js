@@ -6,8 +6,7 @@
 // ── STATE ──────────────────────────────────────────────────────────────────
 const aiPanel = {
     isOpen: false,
-    context: [],       // Array of { type, label, icon, data }
-    messages: [],      // Array of { role: 'user'|'assistant', content }
+    history: [],       // Array of { type: 'msg'|'ctx', role, content, label, data, id, isSent }
     isTyping: false,
 
     // Mock responses keyed by intent keywords
@@ -93,30 +92,28 @@ function openAIPanel() {
     if (!aiPanel.isOpen) toggleAIPanel();
 }
 
-// ── CONTEXT MANAGEMENT ────────────────────────────────────────────────────────
+// ── CONTEXT & HISTORY MANAGEMENT ─────────────────────────────────────────────
 function addContext(type, label, icon, data) {
-    // Only one 'resume' at a time, but allow multiple sections/entries/pics
-    if (type === 'resume') {
-        aiPanel.context = aiPanel.context.filter(c => c.type !== 'resume');
-    }
-
-    aiPanel.context.push({ type, label, icon: '', data, id: Date.now() + Math.random() });
+    // For 'resume', we might want to consolidate, but for now just push to history
+    aiPanel.history.push({
+        type: 'ctx',
+        ctxType: type,
+        label: label,
+        data: data,
+        id: Date.now() + Math.random(),
+        isSent: false
+    });
     renderMessages();
 }
 
 function removeContext(id) {
-    aiPanel.context = aiPanel.context.filter(c => c.id !== id);
-    renderMessages(); // Now handles both messages and context
+    aiPanel.history = aiPanel.history.filter(h => h.id !== id);
+    renderMessages();
 }
 
 function toggleContextDetails(id) {
     const el = document.getElementById(`details-${id}`);
     if (el) el.classList.toggle('open');
-}
-
-function renderContextChips() {
-    // Legacy function — now integrated into renderMessages
-    renderMessages();
 }
 
 // ── CONTEXT BUILDERS ──────────────────────────────────────────────────────────
@@ -200,72 +197,15 @@ function closeAllDropdowns() {
 
 // ── CHAT MESSAGES ─────────────────────────────────────────────────────────────
 function appendMessage(role, content) {
-    aiPanel.messages.push({ role, content });
+    aiPanel.history.push({ type: 'msg', role, content, id: Date.now() + Math.random() });
     renderMessages();
-}
-
-function appendSystemEcho(text) {
-    const container = $('ai-messages');
-    if (!container) return;
-
-    // Remove empty state if present
-    const welcome = container.querySelector('.ai-welcome');
-    if (welcome) welcome.remove();
-
-    const el = document.createElement('div');
-    el.className = 'ai-context-echo';
-    el.textContent = text;
-    container.appendChild(el);
-    container.scrollTop = container.scrollHeight;
 }
 
 function renderMessages() {
     const container = $('ai-messages');
     if (!container) return;
 
-    // Remove empty state
-    const welcome = container.querySelector('.ai-welcome');
-    if (welcome) welcome.remove();
-
-    // Clear and build the thread
-    container.innerHTML = '';
-
-    // First, render Active Context Attachments at the top of the thread
-    if (aiPanel.context.length > 0) {
-        aiPanel.context.forEach(c => {
-            const el = document.createElement('div');
-            el.className = `ai-attachment-card ${c.type}-card`;
-            el.innerHTML = `
-                <div class="ac-header">
-                    <span class="ac-label">${c.label}</span>
-                    <div class="ac-actions">
-                        <button class="ac-btn toggle" onclick="toggleContextDetails(${c.id})" title="Toggle Details">
-                            <span class="ai-eye-icon"></span>
-                        </button>
-                        <button class="ac-btn remove" onclick="removeContext(${c.id})" title="Remove Attachment">✕</button>
-                    </div>
-                </div>
-                <div class="ac-details" id="details-${c.id}">
-                    <pre>${c.data}</pre>
-                </div>
-            `;
-            container.appendChild(el);
-        });
-    }
-
-    // Then, render Chat Messages history
-    aiPanel.messages.forEach(msg => {
-        const roleLabel = msg.role === 'user' ? 'You' : '✦ Gemini';
-        const el = document.createElement('div');
-        el.className = `ai-msg ${msg.role}`;
-        el.innerHTML = `
-            <span class="ai-msg-role">${roleLabel}</span>
-            <div class="ai-msg-bubble">${formatMessageContent(msg.content)}</div>
-        `;
-        container.appendChild(el);
-    });
-
-    if (aiPanel.messages.length === 0 && aiPanel.context.length === 0) {
+    if (aiPanel.history.length === 0) {
         container.innerHTML = `
             <div class="ai-welcome">
                 <div class="welcome-icon"><span class="ai-sparkle-neon"></span></div>
@@ -273,7 +213,65 @@ function renderMessages() {
                 <p>Attach context using <strong>+</strong>, then ask anything — rewrite bullets, add entries, tailor to a job, and more.</p>
             </div>
         `;
+        return;
     }
+
+    // Remove welcome if it exists
+    const welcome = container.querySelector('.ai-welcome');
+    if (welcome) welcome.remove();
+
+    // Smart Render: Only add new elements or update existing ones
+    aiPanel.history.forEach(item => {
+        let el = document.getElementById(`history-item-${item.id}`);
+        if (!el) {
+            el = document.createElement('div');
+            el.id = `history-item-${item.id}`;
+            container.appendChild(el);
+        }
+
+        if (item.type === 'ctx') {
+            const className = `ai-attachment-card ${item.ctxType}-card ${item.isSent ? 'is-sent' : ''}`;
+            // Only update if something structural changed (like the sent status)
+            if (el.className !== className) {
+                el.className = className;
+                el.innerHTML = `
+                    <div class="ac-header">
+                        <span class="ac-label">${item.label}</span>
+                        <div class="ac-actions">
+                            <button class="ac-btn toggle" onclick="toggleContextDetails(${item.id})" title="Toggle Details">
+                                <span class="ai-eye-icon"></span>
+                            </button>
+                            ${!item.isSent ? `<button class="ac-btn remove" onclick="removeContext(${item.id})" title="Remove Attachment">✕</button>` : ''}
+                        </div>
+                    </div>
+                    <div class="ac-details" id="details-${item.id}">
+                        <pre>${item.data}</pre>
+                    </div>
+                `;
+            }
+        } else {
+            const roleLabel = item.role === 'user' ? 'You' : 'Gemini';
+            el.className = `ai-msg ${item.role}`;
+            // If it's a typing assistant message, don't overwrite its innerHTML 
+            // if it's currently being handled by the typewriter interval
+            if (item.role === 'assistant' && item.isTypewriting) {
+                // Interval is handling it
+            } else {
+                el.innerHTML = `
+                    <span class="ai-msg-role">${roleLabel}</span>
+                    <div class="ai-msg-bubble">${formatMessageContent(item.content)}</div>
+                `;
+            }
+        }
+    });
+
+    // Remove any DOM elements that are no longer in history
+    const historyIds = aiPanel.history.map(h => `history-item-${h.id}`);
+    Array.from(container.children).forEach(child => {
+        if (child.id && child.id.startsWith('history-item-') && !historyIds.includes(child.id)) {
+            child.remove();
+        }
+    });
 
     container.scrollTop = container.scrollHeight;
 }
@@ -322,6 +320,12 @@ async function sendAIMessage() {
 
     input.value = '';
     input.style.height = 'auto';
+
+    // Commit current unsent context as "sent" before sending the message
+    aiPanel.history.forEach(item => {
+        if (item.type === 'ctx') item.isSent = true;
+    });
+
     appendMessage('user', text);
 
     aiPanel.isTyping = true;
@@ -343,27 +347,41 @@ async function sendAIMessage() {
 }
 
 async function typewriterAppend(role, content) {
-    aiPanel.messages.push({ role, content: '' });
-    const idx = aiPanel.messages.length - 1;
+    const msgId = Date.now() + Math.random();
+    aiPanel.history.push({ type: 'msg', role, content: '', id: msgId, isTypewriting: true });
     renderMessages();
 
     const container = $('ai-messages');
-    const msgEls = container.querySelectorAll('.ai-msg');
-    const bubble = msgEls[msgEls.length - 1]?.querySelector('.ai-msg-bubble');
-    if (!bubble) return;
-
     let i = 0;
-    const chars = content.split('');
+
     return new Promise(resolve => {
         const timer = setInterval(() => {
-            i += 2; // 2 chars per tick for speed
-            aiPanel.messages[idx].content = content.slice(0, i);
-            bubble.innerHTML = formatMessageContent(content.slice(0, i));
+            i += 2;
+            const text = content.slice(0, i);
+
+            // Update the message in the history data
+            const historyItem = aiPanel.history.find(h => h.id === msgId);
+            if (historyItem) historyItem.content = text;
+
+            // Update the DOM element directly for performance and to keep scroll synced
+            const el = document.getElementById(`history-item-${msgId}`);
+            if (el) {
+                const roleLabel = role === 'user' ? 'You' : 'Gemini';
+                el.innerHTML = `
+                    <span class="ai-msg-role">${roleLabel}</span>
+                    <div class="ai-msg-bubble">${formatMessageContent(text)}</div>
+                `;
+            }
+
             container.scrollTop = container.scrollHeight;
+
             if (i >= content.length) {
                 clearInterval(timer);
-                aiPanel.messages[idx].content = content;
-                bubble.innerHTML = formatMessageContent(content);
+                if (historyItem) {
+                    historyItem.content = content;
+                    historyItem.isTypewriting = false;
+                }
+                renderMessages(); // Final structural render
                 resolve();
             }
         }, 16);
@@ -420,8 +438,8 @@ function initAIPanel() {
         }
     });
 
-    // Initial chip render
-    renderContextChips();
+    // Initial thread render
+    renderMessages();
 }
 
 // Init after DOM ready (hooks into existing DOMContentLoaded flow)
