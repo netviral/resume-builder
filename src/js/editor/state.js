@@ -47,19 +47,40 @@ const history = {
 
 function init() {
     if (window.resumeDataRes) {
-        // Detect and Hydrate JSON Resume Schema
-        if (window.resumeDataRes.basics && !window.resumeDataRes.sections) {
-            resumeData = hydrateFromJRS(window.resumeDataRes);
-        } else {
-            resumeData = window.resumeDataRes;
-        }
-
-        populateThemes();
-        renderResume();
-        if (typeof applySettings === 'function') applySettings();
+        loadResumeData(window.resumeDataRes);
     } else {
         showLoadOverlay();
     }
+}
+
+/**
+ * Cleanly resets app state and loads new resume data
+ */
+function loadResumeData(newData) {
+    if (!newData) return;
+
+    // Reset History
+    history.undoStack = [];
+    history.redoStack = [];
+
+    // Hydrate if needed
+    if (newData.basics && !newData.sections) {
+        resumeData = hydrateFromJRS(newData);
+    } else {
+        // Deep clone to ensure no accidental mutations
+        resumeData = JSON.parse(JSON.stringify(newData));
+    }
+
+    populateThemes();
+    renderResume();
+
+    // Clear AI History when switching resumes
+    if (typeof aiPanel !== 'undefined') {
+        aiPanel.history = [];
+        if (typeof renderMessages === 'function') renderMessages();
+    }
+
+    if (typeof applySettings === 'function') applySettings();
 }
 
 /**
@@ -177,7 +198,7 @@ function populateThemes() {
     if (!selector || !window.resumeThemes) return;
 
     selector.innerHTML = window.resumeThemes.map(t =>
-        `<option value="${t.path}">${t.name}</option>`
+        `<option value="${t.id}">${t.name}</option>`
     ).join('');
 }
 

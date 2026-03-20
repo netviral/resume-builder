@@ -520,19 +520,12 @@ body.ai-open #resume-wrap {
     overflow-y: auto;
     overscroll-behavior: contain;
     /* Prevent scrolling the resume when at the edges of the chat */
-    direction: rtl;
-    /* Move scrollbar to the inner edge */
     padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 14px;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
-}
-
-#ai-messages>* {
-    direction: ltr;
-    /* Ensure text remains left-to-right */
 }
 
 #ai-messages::-webkit-scrollbar {

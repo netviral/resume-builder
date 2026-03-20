@@ -27,46 +27,46 @@ function exportPDF() {
 }
 
 function saveData() {
-    const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.innerHTML = `
-        <div class="modal" style="max-width:350px">
-          <h3>Save Resume Data</h3>
-          <p style="font-size:0.85rem; color:#666; margin-bottom:1.5rem">Choose which format to export. <strong>data.js</strong> is recommended for local file usage.</p>
-          <div class="modal-options">
-            <button class="modal-btn" onclick="exportFile('js')">
-              <strong>Export data.js</strong>
-              <span>Bypasses CORS for direct local use</span>
-            </button>
-            <button class="modal-btn" onclick="exportFile('json')">
-              <strong>Export data.json</strong>
-              <span>Standard JSON data format</span>
-            </button>
-            <button class="modal-btn" style="background:white; border-color:#ccc; color:#666" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
-          </div>
-        </div>
-      `;
-    document.body.appendChild(modal);
+    if (typeof Modal !== 'undefined') {
+        Modal.show({
+            title: 'Save Resume Data',
+            message: 'Choose which format to export. <strong>data.js</strong> is recommended for local file usage.',
+            buttons: [
+                {
+                    label: 'Export data.js',
+                    className: 'btn-primary',
+                    onClick: () => exportFile('js')
+                },
+                {
+                    label: 'Export data.json',
+                    className: 'btn-outline',
+                    onClick: () => exportFile('json')
+                }
+            ]
+        });
+    }
+}
 
-    window.exportFile = (ext) => {
-        let exportData = resumeData;
+/**
+ * Universal file exporter
+ */
+function exportFile(ext) {
+    let exportData = resumeData;
 
-        // If we are in hydrated mode, translate back to JRS
-        if (resumeData.originalJRS) {
-            exportData = dehydrateToJRS(resumeData);
-        }
+    // If we are in hydrated mode, translate back to JRS
+    if (resumeData.originalJRS) {
+        exportData = dehydrateToJRS(resumeData);
+    }
 
-        const dataStr = JSON.stringify(exportData, null, 2);
-        const content = ext === 'js' ? `window.resumeDataRes = ${dataStr};` : dataStr;
-        const blob = new Blob([content], { type: ext === 'js' ? 'application/javascript' : 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `data.${ext}`;
-        a.click();
-        URL.revokeObjectURL(url);
-        modal.remove();
-    };
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const content = ext === 'js' ? `window.resumeDataRes = ${dataStr};` : dataStr;
+    const blob = new Blob([content], { type: ext === 'js' ? 'application/javascript' : 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `data.${ext}`;
+    a.click();
+    URL.revokeObjectURL(url);
 }
 
 /**

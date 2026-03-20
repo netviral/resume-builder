@@ -25,6 +25,36 @@ body.editing [contenteditable]:focus {
     box-shadow: 0 0 0 2px #d4a916;
 }
 
+/* ── ISOLATE EDITOR UI FROM THEME SCALING ── */
+#toolbar,
+.editor-controls,
+#resume-switcher,
+#ai-panel,
+.modal-overlay {
+    font-size: 12px !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+#toolbar * {
+    font-size: inherit;
+}
+
+.editor-controls * {
+    font-size: inherit;
+}
+
+#resume-switcher * {
+    font-size: inherit;
+}
+
+#ai-panel * {
+    font-size: inherit;
+}
+
+.modal-overlay * {
+    font-size: inherit;
+}
+
 /* ── GLOBAL DARK TOOLTIPS ── */
 /* Applied to any element with [data-tooltip]. A small JS snippet
    runs on load to copy title="" → data-tooltip="" and remove title

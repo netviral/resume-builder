@@ -281,7 +281,7 @@ window.resumeDataRes = {
         ]
     },
     "meta": {
-        "settings": { "marginX": 2.5, "marginY": 1.5, "fontSize": 12 },
+        "settings": { "marginX": 2.5, "marginY": 1.5, "fontSize": 12, "theme": "default" },
         "sections": [
             { "id": "s1", "title": "Professional Summary", "type": "paragraph", "source": "basics.summary" },
             { "id": "s2", "title": "Education", "type": "table_3col", "source": "education" },
