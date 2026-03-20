@@ -7,14 +7,80 @@ function updateMeta(key, val) {
     history.save();
     resumeData.metadata[key] = val;
 }
-function updateContact(i, val) {
-    history.save();
-    resumeData.metadata.contacts[i].label = val;
+function editContact(i) {
+    const contact = resumeData.metadata.contacts[i];
+    if (typeof Modal === 'undefined') return;
+
+    Modal.show({
+        title: 'Edit Link',
+        message: `
+            <div class="modal-form">
+                <div class="form-group">
+                    <label>Text Label</label>
+                    <input type="text" id="edit-link-label" class="modal-input" value="${contact.label}" placeholder="e.g. LinkedIn, Portfolio">
+                </div>
+                <div class="form-group">
+                    <label>URL / Hyperlink</label>
+                    <input type="text" id="edit-link-url" class="modal-input" value="${contact.href}" placeholder="e.g. https://...">
+                </div>
+            </div>
+        `,
+        buttons: [
+            {
+                label: 'Save Changes',
+                className: 'btn-primary',
+                onClick: () => {
+                    const label = document.getElementById('edit-link-label').value;
+                    const href = document.getElementById('edit-link-url').value;
+                    if (label) {
+                        history.save();
+                        resumeData.metadata.contacts[i] = { label, href };
+                        renderHeader();
+                    }
+                }
+            },
+            {
+                label: 'Remove Link',
+                className: 'btn-danger-outline',
+                onClick: () => removeContact(i)
+            }
+        ]
+    });
 }
+
 function addContact() {
-    history.save();
-    resumeData.metadata.contacts.push({ label: "New Link", href: "#" });
-    renderHeader();
+    if (typeof Modal === 'undefined') return;
+
+    Modal.show({
+        title: 'Add New Link',
+        message: `
+            <div class="modal-form">
+                <div class="form-group">
+                    <label>Text Label</label>
+                    <input type="text" id="add-link-label" class="modal-input" placeholder="e.g. LinkedIn, Portfolio">
+                </div>
+                <div class="form-group">
+                    <label>URL / Hyperlink</label>
+                    <input type="text" id="add-link-url" class="modal-input" placeholder="e.g. https://...">
+                </div>
+            </div>
+        `,
+        buttons: [
+            {
+                label: 'Add Link',
+                className: 'btn-primary',
+                onClick: () => {
+                    const label = document.getElementById('add-link-label').value;
+                    const href = document.getElementById('add-link-url').value;
+                    if (label) {
+                        history.save();
+                        resumeData.metadata.contacts.push({ label, href: href || '#' });
+                        renderHeader();
+                    }
+                }
+            }
+        ]
+    });
 }
 function removeContact(i) {
     history.save();
@@ -29,7 +95,7 @@ function removeTagline() {
 function removeSummary() {
     history.save();
     resumeData.metadata.summary = "";
-    renderSummary();
+    renderSections();
 }
 
 /* Generic Section Content Update */
@@ -100,17 +166,56 @@ function removeBullet(sIdx, eIdx, bIdx) {
 /* Bullet Grid Management (Simple Arrays) */
 function updateColBullet(sIdx, bIdx, val) {
     history.save();
-    resumeData.sections[sIdx].bullets[bIdx] = val;
+    resumeData.sections[sIdx].items[bIdx] = val;
 }
 function addColBullet(sIdx) {
     history.save();
-    resumeData.sections[sIdx].bullets.push("New item");
+    if (!resumeData.sections[sIdx].items) resumeData.sections[sIdx].items = [];
+    resumeData.sections[sIdx].items.push("New item");
     renderSections();
 }
 function removeColBullet(sIdx, bIdx) {
     history.save();
-    resumeData.sections[sIdx].bullets.splice(bIdx, 1);
+    resumeData.sections[sIdx].items.splice(bIdx, 1);
     renderSections();
+}
+
+function editCommaItem(sIdx, iIdx) {
+    const item = resumeData.sections[sIdx].items[iIdx];
+    if (typeof Modal === 'undefined') return;
+
+    Modal.show({
+        title: 'Edit Item',
+        message: `
+            <div class="modal-form">
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input type="text" id="edit-comma-val" class="modal-input" value="${item}" placeholder="e.g. Algorithms">
+                </div>
+            </div>
+        `,
+        buttons: [
+            {
+                label: 'Save Changes',
+                className: 'btn-primary',
+                onClick: () => {
+                    const val = document.getElementById('edit-comma-val').value;
+                    if (val) {
+                        history.save();
+                        resumeData.sections[sIdx].items[iIdx] = val.trim();
+                        renderSections();
+                    }
+                }
+            },
+            {
+                label: 'Remove Item',
+                className: 'btn-danger-outline',
+                onClick: () => {
+                    removeColBullet(sIdx, iIdx);
+                }
+            }
+        ]
+    });
 }
 
 /* Key-Value Grid Management (e.g. Skills) */

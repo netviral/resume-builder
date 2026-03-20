@@ -108,6 +108,6 @@ function addNewSection() {
     if (type === 'summary') resumeData.metadata.summary = "Your summary here...";
     modal.remove();
     renderHeader();
-    renderSummary();
+    renderSections();
   };
 }

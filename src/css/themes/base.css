@@ -277,6 +277,55 @@ a.link-tag:hover {
     line-height: 1.5;
 }
 
+/* ── COMMA LISTS ── */
+.comma-list-para {
+    line-height: 1.6;
+    font-size: 0.88rem;
+    color: var(--gray);
+}
+
+.comma-item {
+    display: inline-block;
+    position: relative;
+    padding: 0.1rem 0.2rem 0.1rem 0;
+    margin-right: 0.1rem;
+    line-height: 1;
+}
+
+.comma-item .del-inline {
+    opacity: 0;
+    transition: opacity 0.2s;
+    position: absolute;
+    top: -4px;
+    right: -2px;
+    background: var(--light-gray, #94a3b8);
+    color: white;
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.comma-item:hover .del-inline {
+    opacity: 1;
+}
+
+.comma-item .del-inline:hover {
+    background: #ef4444;
+}
+
+.comma-item .sep {
+    color: var(--light-gray);
+    margin-left: -0.2rem;
+    padding-right: 0.3rem;
+}
+
 /* ── SKILLS GRID ── */
 .skills-grid {
     display: grid;

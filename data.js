@@ -208,82 +208,34 @@ window.resumeDataRes = {
             {
                 "name": "Ministry of Technology, Ashoka University Student Government",
                 "position": "Minister ← Deputy Minister of Technology",
-                "startDate": "2024-05-01",
-                "endDate": "2025-05-01",
                 "highlights": [
                     "Developed and spearheaded Ashoka's <strong>first university-wide student engagement platform</strong>, onboarding <strong>3,645+ users</strong> and facilitating 1,360+ cab requests, 1,045+ course reviews, and 200+ pool subscriptions.",
-                    "Leading the mailroom project to digitize parcels in and out (~600+ parcels every day) to reduce staff hours, orphan packages, and inefficiencies by <strong>40%</strong>.",
-                    "Launched <strong>14+ high-impact student initiatives</strong>, including Semester Planner, Degree Tracker, Pool Cab, Borrow Emergency Assets, and WiFi Heatmap, achieving <strong>95%+ student penetration</strong> and up to <strong>13.5+ minutes</strong> of average engagement time."
+                    "Leading the mailroom project to digitize parcels in and out (~600+ parcels every day) to reduce staff hours, orphan packages, and inefficiencies by <strong>40%</strong>."
                 ]
             },
             {
                 "name": "Placement Committee, Career Development Office",
                 "position": "Projects and Collaborations Head",
-                "startDate": "2023-12-01",
-                "endDate": "2024-07-01",
-                "highlights": [
-                    "Built <strong>Duperset</strong>, a Chrome extension with <strong>900+ users</strong>, and developed a custom website consolidating placement tools used by <strong>3,500+ students</strong> across the university.",
-                    "Developed resume-verification APIs to streamline internal admin processes using Google Apps Script, supporting structured data workflows for <strong>200+ recruiting companies</strong>.",
-                    "Collaborated with stakeholders and tech teams to maintain databases, manage external opportunities, and streamline internal processes across the placement lifecycle."
-                ]
-            },
-            {
-                "name": "Ashoka University Election Commission",
-                "position": "Chief Technology Officer",
-                "startDate": "2024-05-01",
-                "endDate": "2024-10-01",
-                "highlights": [
-                    "Designed and deployed a secure, transparent, and independently verifiable election platform for <strong>2,800+ students</strong>, recording <strong>1,300+ votes with 0% error</strong>. Conducted Ashoka Student Government's first digital election on a custom-built platform."
-                ]
-            },
-            {
-                "name": "Computer Science Department, Ashoka University",
-                "position": "Undergraduate Student Representative",
-                "startDate": "2025-05-01",
-                "endDate": "2026-05-01",
-                "highlights": ["Elected Student Representative among 10 candidates, representing <strong>300+ undergraduate students</strong> across Computer Science and CS-interdisciplinary majors."]
-            },
-            {
-                "name": "Ashoka University",
-                "position": "Head of Technology",
-                "startDate": "2023-03-01",
-                "endDate": "2024-09-01",
-                "highlights": [
-                    "Led digital initiatives for <strong>TEDxAshoka</strong> and 6+ student societies/fests, improving operational efficiency and digital accessibility by 30%.",
-                    "Engineered a <strong>Gamified Digital Treasure Hunt</strong> for 300+ student participants.",
-                    "Optimized SEO and PR strategies for TEDxAshoka, resulting in a <strong>45% increase in event registrations</strong>."
-                ]
-            },
-            {
-                "name": "Inky Parchments",
-                "position": "Founder & President",
-                "startDate": "2023-03-01",
-                "endDate": "2024-09-01",
-                "highlights": ["Built a student-run literary platform that published <strong>300+ literary pieces</strong> from <strong>80+ contributors</strong> across diverse backgrounds."]
+                "highlights": ["Built <strong>Duperset</strong>, a Chrome extension with <strong>900+ users</strong>, and developed a custom website."]
             }
         ],
         "teaching": [
             {
                 "name": "CreatEd",
                 "position": "Teacher and Mentor",
-                "highlights": ["Teacher and mentor for 3 students, guiding them through project work, skill development, and creative problem-solving."]
-            },
-            {
-                "name": "Introduction to Computer Science",
-                "position": "Teaching Assistant",
-                "highlights": ["Supported 130+ students under Prof. Debayan Gupta (PhD, Yale) & Prof. Aalok Thakkar (PhD, UPenn)."]
-            },
-            {
-                "name": "Lodha Genius Program",
-                "position": "Mathematics Teaching Assistant",
-                "highlights": ["Mathematics Teaching Assistant, helping students strengthen problem-solving skills and conceptual understanding."]
+                "highlights": ["Teacher and mentor for 3 students."]
             }
+        ],
+        "subjects": [
+            "Data Structures", "Algorithms", "Operating Systems", "Computer Networks", "Database Management",
+            "Software Engineering", "Machine Learning", "Artificial Intelligence", "Theory of Computation"
         ]
     },
     "meta": {
         "settings": { "marginX": 2.5, "marginY": 1.5, "fontSize": 12, "theme": "default" },
         "sections": [
-            { "id": "s1", "title": "Professional Summary", "type": "paragraph", "source": "basics.summary" },
+            { "id": "s0", "title": "Professional Summary", "type": "paragraph", "source": "basics.summary" },
+            { "id": "s1", "title": "Core Subjects", "type": "comma_list", "source": "custom.subjects" },
             { "id": "s2", "title": "Education", "type": "table_3col", "source": "education" },
             { "id": "s3", "title": "Professional Experience", "type": "detailed_list", "source": "work" },
             { "id": "s4", "title": "Social Impact & Policy Work", "type": "detailed_list", "source": "volunteer" },
@@ -297,4 +249,4 @@ window.resumeDataRes = {
             { "id": "s12", "title": "Areas of Interest", "type": "bullet_grid", "source": "interests" }
         ]
     }
-}
+};

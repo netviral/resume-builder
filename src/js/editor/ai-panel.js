@@ -129,7 +129,17 @@ function toggleContextDetails(id) {
 // ── CONTEXT BUILDERS ──────────────────────────────────────────────────────────
 function sendFullResumeToAI() {
     if (!resumeData) return;
-    addContext('resume', 'Full Resume', '', JSON.stringify(resumeData, null, 2));
+
+    // Filter resumeData to only include sections allowed by schema
+    const filteredResume = JSON.parse(JSON.stringify(resumeData));
+    if (filteredResume.sections) {
+        filteredResume.sections = filteredResume.sections.filter(s => {
+            const schema = window.sectionSchema[s.type];
+            return schema ? schema.allowAI : true;
+        });
+    }
+
+    addContext('resume', 'Full Resume', '', JSON.stringify(filteredResume, null, 2));
     openAIPanel();
     closeAllDropdowns();
 }
@@ -138,6 +148,11 @@ function sendSectionToAI(sectionId) {
     if (!resumeData) return;
     const section = resumeData.sections?.find(s => s.id === sectionId);
     if (!section) return;
+
+    const schema = window.sectionSchema[section.type];
+    if (schema && schema.allowAI === false) {
+        return;
+    }
 
     // Fetch original raw data from data.js source path
     const rawData = getRawSourceData(section.source);
@@ -223,6 +238,7 @@ function renderMessages() {
                 <p>Attach context using <strong>+</strong>, then ask anything — rewrite bullets, add entries, tailor to a job, and more.</p>
             </div>
         `;
+        renderContextStatus();
         return;
     }
 

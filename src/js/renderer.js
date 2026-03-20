@@ -35,8 +35,10 @@ function renderHeader() {
   const contactsHtml = `<div class="contacts">
         ${contacts.map((c, i) => `
             <div class="contact-item" style="position:relative; display:inline-block">
-                <a href="${c.href}" contenteditable="${editMode}" onblur="updateContact(${i}, this.innerText)">${c.label}</a>
-                ${editMode ? `<button class="del-inline" title="Remove contact" onclick="removeContact(${i})">✕</button>` : ''}
+                ${editMode ?
+      `<a href="javascript:void(0)" onclick="editContact(${i})" class="edit-link-trigger">${c.label}</a>` :
+      `<a href="${c.href}" target="_blank">${c.label}</a>`
+    }
                 ${i < contacts.length - 1 ? '<span>|</span>' : ''}
             </div>
         `).join('')}
@@ -73,10 +75,11 @@ function renderSections() {
 
     const schema = window.sectionSchema[section.type];
     const showTitle = schema ? !schema.hideTitle : true;
+    const canSendToAI = schema ? schema.allowAI : true;
 
     const ctrlHtml = editMode ? `
         <div class="section-ctrl">
-          <button class="ai-send-section-btn" title="Send Section to AI" onclick="sendSectionToAI('${section.id}')"></button>
+          ${canSendToAI ? `<button class="ai-send-section-btn" title="Send Section to AI" onclick="sendSectionToAI('${section.id}')"></button>` : ''}
           <button class="up-section" title="Move Up" onclick="moveSection(${sIdx}, -1)">↑</button>
           <button class="down-section" title="Move Down" onclick="moveSection(${sIdx}, 1)">↓</button>
           <button class="del-section" title="Remove entire section" onclick="removeSection(${sIdx})">✕</button>
@@ -126,13 +129,40 @@ function mapJRSData(section) {
   if (!source) return {};
 
   const parts = source.split('.');
-  let data = resumeData;
-  parts.forEach(p => { if (data) data = data[p]; });
+  // Try multiple roots to ensure we find the data:
+  // 1. Original JRS (best for raw sources)
+  // 2. Hydrated resumeData (fallback)
+  // 3. The global window.resumeDataRes (as a last resort for primary resume)
+  const potentialRoots = [
+    resumeData.originalJRS,
+    resumeData,
+    window.resumeDataRes
+  ];
+
+  let data = null;
+  for (const root of potentialRoots) {
+    if (!root) continue;
+    let current = root;
+    parts.forEach(p => { if (current && current[p] !== undefined) current = current[p]; else current = null; });
+    if (current && (Array.isArray(current) || typeof current === 'string')) {
+      data = current;
+      break;
+    }
+  }
+
+  // Desperate Fallback: If still not found and path ends in 'subjects', try to find subjects anywhere
+  if (!data && parts.includes('subjects')) {
+    potentialRoots.forEach(root => {
+      if (!root) return;
+      if (root.subjects) data = root.subjects;
+      if (!data && root.custom && root.custom.subjects) data = root.custom.subjects;
+    });
+  }
 
   const offset = section.offset || 0;
   const count = section.count;
 
-  if (Array.isArray(data)) {
+  if (data && Array.isArray(data)) {
     let subset = data.slice(offset);
     if (count) subset = subset.slice(0, count);
 
@@ -164,18 +194,18 @@ function mapJRSData(section) {
         }))
       };
     }
-    if (section.type === 'bullet_grid') {
+    if (section.type === 'bullet_grid' || section.type === 'comma_list') {
       // Special Case: Flatten Skills Keywords into a horizontal list
       if (source.toLowerCase().includes('skills')) {
         const allKeywords = [];
         subset.forEach(s => { if (s.keywords) allKeywords.push(...s.keywords); });
-        return { bullets: allKeywords };
+        return { items: allKeywords };
       }
       return {
-        bullets: subset.map(item => {
+        items: subset.map(item => {
           if (typeof item === 'string') return item;
           if (item.language) return `${item.language} (${item.fluency || ''})`;
-          return item.name || item.label || item.heading || "";
+          return item.name || item.heading || item.label || "";
         })
       };
     }
@@ -190,6 +220,9 @@ function mapJRSData(section) {
 
 function renderSectionContent(section, sIdx) {
   const type = section.type;
+
+  const schema = window.sectionSchema[type];
+  const canSendToAI = schema ? schema.allowAI : true;
 
   if (type === 'table_3col') {
     return `
@@ -207,7 +240,7 @@ function renderSectionContent(section, sIdx) {
               </td>
               <td style="position:relative; width:0; padding:0">
                  ${editMode ? `<div class="entry-ctrl">
-                    <button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>
+                    ${canSendToAI ? `<button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>` : ''}
                     <button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button>
                  </div>` : ''}
               </td>
@@ -221,7 +254,7 @@ function renderSectionContent(section, sIdx) {
         ${section.entries.map((e, eIdx) => `
           <div class="entry">
             ${editMode ? `<div class="entry-ctrl">
-                <button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>
+                ${canSendToAI ? `<button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>` : ''}
                 <button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button>
             </div>` : ''}
             <div class="entry-header">
@@ -245,7 +278,7 @@ function renderSectionContent(section, sIdx) {
   } else if (type === 'bullet_grid') {
     return `
         <ul class="two-col">
-          ${section.bullets.map((b, bIdx) => `
+          ${(section.items || []).map((b, bIdx) => `
             <li style="position:relative">
               <span contenteditable="${editMode}" onblur="updateColBullet(${sIdx}, ${bIdx}, this.innerText)">${b}</span>
               ${editMode ? `<span class="bullet-ctrl"><button class="del-btn" onclick="removeColBullet(${sIdx}, ${bIdx})">✕</button></span>` : ''}
@@ -254,12 +287,25 @@ function renderSectionContent(section, sIdx) {
         </ul>
         ${editMode ? `<div class="add-action-area"><button class="add-btn" onclick="addColBullet(${sIdx})"><span>+</span> Add List Item</button></div>` : ''}
       `;
+  } else if (type === 'comma_list') {
+    return `
+        <div class="comma-list-para">
+          ${(section.items || []).map((item, iIdx) => `
+            <span class="comma-item">
+              <span contenteditable="${editMode}" onblur="updateColBullet(${sIdx}, ${iIdx}, this.innerText.replace(',', '').trim())">${item}</span>
+              ${editMode ? `<button class="del-inline" title="Delete" onclick="removeColBullet(${sIdx}, ${iIdx})">✕</button>` : ''}
+              ${iIdx < section.items.length - 1 ? '<span class="sep">, </span>' : ''}
+            </span>
+          `).join('')}
+          ${editMode ? `<button class="add-btn small" title="Add Item" style="margin-left: 0.5rem;" onclick="addColBullet(${sIdx})">+ item</button>` : ''}
+        </div>
+      `;
   } else if (type === 'simple_list') {
     return `
         ${section.entries.map((e, eIdx) => `
           <div class="entry venture">
             ${editMode ? `<div class="entry-ctrl">
-                <button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>
+                ${canSendToAI ? `<button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>` : ''}
                 <button class="del-entry" title="Remove Entry" onclick="removeEntry(${sIdx}, ${eIdx})">✕</button>
             </div>` : ''}
             <strong contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'heading', this.innerText)">${e.heading || ''}</strong>
@@ -275,7 +321,7 @@ function renderSectionContent(section, sIdx) {
           ${section.items.map((item, iIdx) => `
             <div class="entry" style="position:relative">
               ${editMode ? `<div class="entry-ctrl">
-                  <button class="ai-send-entry-btn" title="Send Item to AI" onclick="sendEntryToAI('${section.id}', ${iIdx})"></button>
+                  ${canSendToAI ? `<button class="ai-send-entry-btn" title="Send Item to AI" onclick="sendEntryToAI('${section.id}', ${iIdx})"></button>` : ''}
                   <button class="del-entry" title="Remove Item" onclick="removeSkill(${sIdx}, ${iIdx})">✕</button>
               </div>` : ''}
               <div contenteditable="${editMode}" onblur="updateSkill(${sIdx}, ${iIdx}, this.innerHTML)">

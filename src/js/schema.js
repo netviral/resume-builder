@@ -14,7 +14,8 @@ window.sectionSchema = {
             "subheading": "Sub-heading",
             "bullets": ["New bullet point"]
         },
-        "hasBullets": true
+        "hasBullets": true,
+        "allowAI": true // Fully allowed
     },
     "table_3col": {
         "name": "3-Column Table",
@@ -25,7 +26,8 @@ window.sectionSchema = {
             "col2": "Column 2",
             "col3": "Column 3"
         },
-        "hasBullets": false
+        "hasBullets": false,
+        "allowAI": false // Not allowed (e.g., Education/Awards often shouldn't be hallucinations)
     },
     "simple_list": {
         "name": "Simple List",
@@ -36,7 +38,8 @@ window.sectionSchema = {
             "subheading": "Sub-heading",
             "description": "Description text..."
         },
-        "hasBullets": false
+        "hasBullets": false,
+        "allowAI": true
     },
     "key_value_grid": {
         "name": "Key-Value Grid",
@@ -46,14 +49,24 @@ window.sectionSchema = {
             "label": "Category",
             "value": "Value 1, Value 2"
         },
-        "hasBullets": false
+        "hasBullets": false,
+        "allowAI": false // Generally fixed skills lists
     },
     "bullet_grid": {
         "name": "Bullet Grid",
         "description": "Two-column list of bullet points (e.g., Languages, Interests).",
-        "itemKey": "bullets",
+        "itemKey": "items",
         "defaultItem": "New list item",
-        "hasBullets": true
+        "hasBullets": true,
+        "allowAI": true
+    },
+    "comma_list": {
+        "name": "Comma Separated List",
+        "description": "Inline items separated by commas (ideal for subjects or raw skills).",
+        "itemKey": "items",
+        "defaultItem": "New Item",
+        "hasBullets": false,
+        "allowAI": true
     },
     "paragraph": {
         "name": "Paragraph",
@@ -61,6 +74,7 @@ window.sectionSchema = {
         "itemKey": "content",
         "defaultItem": "New paragraph text...",
         "isSingleText": true,
-        "hideTitle": true
+        "hideTitle": true,
+        "allowAI": true // Summaries are great for AI
     }
 };

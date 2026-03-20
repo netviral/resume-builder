@@ -25,6 +25,18 @@ body.editing [contenteditable]:focus {
     box-shadow: 0 0 0 2px #d4a916;
 }
 
+.edit-link-trigger {
+    text-decoration: underline dotted rgba(59, 130, 246, 0.5);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.edit-link-trigger:hover {
+    color: #3b82f6 !important;
+    text-decoration: underline solid #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+}
+
 /* ── ISOLATE EDITOR UI FROM THEME SCALING ── */
 #toolbar,
 .editor-controls,
@@ -121,4 +133,41 @@ body.editing [contenteditable]:focus {
 [data-tooltip].tt-right:hover::before,
 [data-tooltip].tt-right:hover::after {
     transform: translateX(0) translateY(0);
+}
+
+/* ── STATUS BAR (BOTTOM LEFT) ── */
+#status-bar {
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    padding: 6px 14px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 10px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#status-bar.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#status-bar::before {
+    content: '✦';
+    color: #3b82f6;
+    font-size: 12px;
 }

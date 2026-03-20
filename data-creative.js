@@ -32,7 +32,6 @@ window.resumeDataResCreative = {
     ],
     "skills": [
         { "name": "Design Tools", "keywords": ["Figma", "Adobe XD", "Illustrator", "Photoshop", "After Effects"] },
-        { "name": "Core Tech", "keywords": ["HTML5", "CSS3/SASS", "JavaScript", "GSAP", "Three.js", "Tailwind CSS"] }
     ],
     "meta": {
         "settings": { "marginX": 3.0, "marginY": 2.0, "fontSize": 13, "theme": "milan" },

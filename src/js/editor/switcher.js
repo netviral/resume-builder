@@ -260,8 +260,6 @@ const ResumeSwitcher = {
     executeSwitch(id) {
         const resume = this.availableResumes.find(r => r.id === id);
         if (!resume) return;
-
-        console.log(`Switching to resume: ${resume.name}`);
         this.currentResumeId = id;
         this.updateList();
 
@@ -269,6 +267,9 @@ const ResumeSwitcher = {
         if (typeof loadResumeData === 'function') {
             loadResumeData(resume.getData());
         }
+
+        // Reset scroll position
+        window.scrollTo(0, 0);
 
         this.close();
     }

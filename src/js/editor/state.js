@@ -63,13 +63,15 @@ function loadResumeData(newData) {
     history.undoStack = [];
     history.redoStack = [];
 
-    // Hydrate if needed
-    if (newData.basics && !newData.sections) {
+    // Always hydrate to ensure latest mapping logic applies
+    if (newData.basics) {
         resumeData = hydrateFromJRS(newData);
     } else {
-        // Deep clone to ensure no accidental mutations
         resumeData = JSON.parse(JSON.stringify(newData));
     }
+
+    // Always ensure a clean originalJRS reference for data mapping
+    resumeData.originalJRS = JSON.parse(JSON.stringify(newData));
 
     populateThemes();
     renderResume();
@@ -170,17 +172,17 @@ function mapJRSDataToInternal(jrs, section) {
                 }))
             };
         }
-        if (section.type === 'bullet_grid') {
+        if (section.type === 'bullet_grid' || section.type === 'comma_list') {
             if (source && source.toLowerCase().includes('skills')) {
                 const keywords = [];
                 subset.forEach(s => { if (s.keywords) keywords.push(...s.keywords); });
-                return { bullets: keywords };
+                return { items: keywords };
             }
             return {
-                bullets: subset.map(item => {
+                items: subset.map(item => {
                     if (typeof item === 'string') return item;
                     if (item.language) return `${item.language} (${item.fluency || ''})`;
-                    return item.name || item.label || item.heading || "";
+                    return item.name || item.heading || item.label || "";
                 })
             };
         }
