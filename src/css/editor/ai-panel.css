@@ -119,20 +119,140 @@ body.ai-open #resume-wrap {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 0;
+    /* Matches the 14px gap of the container */
     overflow: hidden;
     animation: cardIn 0.2s ease;
     transition: all 0.2s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     flex-shrink: 0;
-    /* Important: Prevents cards from getting crushed */
+    position: relative;
+    padding-left: 4px;
+}
+
+/* Subtle Type Indicators (Left Accent Bar) */
+.ai-attachment-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: transparent;
+}
+
+.job-card::before {
+    background: #3b82f6;
+}
+
+/* Blue for Jobs/Files */
+.section-card::before {
+    background: #10b981;
+}
+
+/* Emerald for Sections */
+.entry-card::before {
+    background: #f59e0b;
+}
+
+/* Amber for Entries */
+.resume-card::before {
+    background: #a855f7;
+}
+
+/* Purple for Resumes */
+
+.ac-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.ac-type-tag {
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.job-card .ac-type-tag {
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #60a5fa;
+}
+
+.section-card .ac-type-tag {
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #34d399;
+}
+
+.entry-card .ac-type-tag {
+    border-color: rgba(245, 158, 11, 0.3);
+    color: #fbbf24;
+}
+
+.resume-card .ac-type-tag {
+    border-color: rgba(168, 85, 247, 0.3);
+    color: #c084fc;
+}
+
+.ac-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #f8fafc;
+}
+
+/* ── CONTEXT STATUS BAR ── */
+.ai-status {
+    margin: 0 12px 10px;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.45);
+    background: rgba(168, 85, 247, 0.04);
+    border: 1px solid rgba(168, 85, 247, 0.1);
+    border-radius: 8px;
+    display: none;
+    /* Hidden by default in JS */
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.ai-status.visible {
+    display: flex;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ai-sparkle-neon.small {
+    width: 10px;
+    height: 10px;
+    filter: drop-shadow(0 0 3px #a855f7);
 }
 
 .ai-attachment-card.is-sent {
     opacity: 0.85;
-    /* Less fading as requested */
     background: rgba(255, 255, 255, 0.035);
     border-color: rgba(255, 255, 255, 0.05);
+}
+
+.ai-attachment-card.is-sent::before {
+    opacity: 0.4;
+    /* Dim the accent bar for sent context */
 }
 
 .ai-attachment-card:hover {
@@ -194,7 +314,7 @@ body.ai-open #resume-wrap {
     background: #000;
     padding: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
-    overscroll-behavior: contain;
+    overscroll-behavior: auto;
 }
 
 .ac-details.open {
@@ -698,27 +818,39 @@ body.ai-open #resume-wrap {
     gap: 6px;
     padding: 6px 13px;
     border-radius: 6px;
-    border: 1px solid rgba(129, 140, 248, 0.4);
-    background: rgba(129, 140, 248, 0.12);
-    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.5);
+
+    background: linear-gradient(135deg, #a855f7, #6366f1);
+    color: white;
+
     font-family: 'DM Mono', monospace;
     font-size: 12px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+
     white-space: nowrap;
     margin-left: auto;
 }
 
-#ai-toggle-btn:hover,
-#ai-toggle-btn.active {
-    background: rgba(129, 140, 248, 0.25);
-    border-color: rgba(129, 140, 248, 0.6);
-    color: #c7d2fe;
-    box-shadow: 0 0 12px rgba(129, 140, 248, 0.2);
+/* HOVER = brighter + lift */
+#ai-toggle-btn:hover {
+    background: linear-gradient(135deg, #c084fc, #818cf8);
+    border-color: rgba(129, 140, 248, 0.8);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    transform: translateY(-1px);
 }
 
-/* ── ENTRY / SECTION SEND-TO-AI BUTTON (Redesigned: Gradient Plus on White) ── */
-.ai-send-entry-btn {
+/* ACTIVE = "AI ON" state */
+#ai-toggle-btn.active {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    border-color: rgba(99, 102, 241, 0.9);
+    box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6),
+        0 4px 16px rgba(99, 102, 241, 0.4);
+}
+
+/* ── ENTRY / SECTION SEND-TO-AI BUTTON (Unified) ── */
+.ai-send-entry-btn,
+.ai-send-section-btn {
     width: 26px;
     height: 26px;
     border-radius: 50%;
@@ -735,68 +867,29 @@ body.ai-open #resume-wrap {
     overflow: hidden;
 }
 
-/* Multi-colored Gradient Plus (+) */
-.ai-send-entry-btn::before {
+/* Gradient Sparkle Icon */
+.ai-send-entry-btn::before,
+.ai-send-section-btn::before {
     content: '';
     width: 14px;
     height: 14px;
     background: linear-gradient(135deg, #a855f7, #6366f1);
-    /* Purple Neon */
     clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
     transition: transform 0.2s, filter 0.2s;
 }
 
-.ai-send-entry-btn:hover::before {
+.ai-send-entry-btn:hover::before,
+.ai-send-section-btn:hover::before {
     filter: drop-shadow(0 0 4px #a855f7);
     transform: rotate(90deg) scale(1.1);
 }
 
-.ai-send-entry-btn::after {
-    display: none;
-    /* remove old atom dots */
-}
-
-.ai-send-entry-btn:hover {
-    transform: scale(1.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-    border-color: #9333ea;
-}
-
-.ai-send-section-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    background: #ffffff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
-}
-
-.ai-send-section-btn::before {
-    content: '';
-    width: 16px;
-    height: 16px;
-    background: linear-gradient(135deg, #a855f7, #6366f1);
-    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
-    transition: transform 0.2s, filter 0.2s;
-}
-
-.ai-send-section-btn:hover::before {
-    filter: drop-shadow(0 0 5px #a855f7);
-    transform: rotate(90deg) scale(1.1);
-}
-
+.ai-send-entry-btn::after,
 .ai-send-section-btn::after {
     display: none;
-    /* remove old atom dots */
 }
 
+.ai-send-entry-btn:hover,
 .ai-send-section-btn:hover {
     transform: scale(1.15);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);

@@ -26,10 +26,10 @@
   <!-- TOOLBAR -->
   <div id="toolbar">
     <span class="tb-label">Resume Builder</span>
-    <button class="tb-btn primary" id="toggle-edit-btn" onclick="toggleEdit()">✏ Edit</button>
+    <button class="tb-btn primary" id="toggle-edit-btn" onclick="toggleEdit()" title="Toggle edit mode">✏ Edit</button>
     <div class="tb-sep"></div>
-    <button class="tb-btn" onclick="exportPDF()">↓ Export PDF</button>
-    <button class="tb-btn" onclick="saveData()">💾 Save JSON</button>
+    <button class="tb-btn" onclick="exportPDF()" title="Export as PDF">↓ Export PDF</button>
+    <button class="tb-btn" onclick="saveData()" title="Save data as JSON">💾 Save JSON</button>
     <span id="edit-mode-indicator">viewing</span>
 
     <!-- AI Toggle (auto-pushed right via margin-left: auto in CSS) -->
@@ -91,6 +91,9 @@
           and more.</p>
       </div>
     </div>
+
+    <!-- Context Status Indicator (n items will go in next prompt) -->
+    <div id="ai-context-status" class="ai-status"></div>
 
     <!-- Input Area (now includes context actions) -->
     <div id="ai-input-container">
@@ -158,6 +161,19 @@
   <!-- AI Assistant -->
   <script src="src/js/editor/jobs.js"></script>
   <script src="src/js/editor/ai-panel.js"></script>
+
+  <!-- Tooltip initialiser: copies title="" → data-tooltip="" so our
+       CSS dark tooltips replace the browser's native ugly ones.
+       Call initTooltips() again after any dynamic re-render. -->
+  <script>
+    function initTooltips(root) {
+      (root || document).querySelectorAll('[title]').forEach(function (el) {
+        el.dataset.tooltip = el.getAttribute('title');
+        el.removeAttribute('title');
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function () { initTooltips(); });
+  </script>
 </body>
 
 </html>

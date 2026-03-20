@@ -80,6 +80,7 @@ function toggleAIPanel() {
         btn.classList.add('active');
         document.body.classList.add('ai-open');
         btn.setAttribute('title', 'Close AI Assistant');
+        setTimeout(() => scrollToBottom(), 360); // Wait for open transition
     } else {
         panel.classList.remove('open');
         btn.classList.remove('active');
@@ -104,6 +105,7 @@ function addContext(type, label, icon, data) {
         isSent: false
     });
     renderMessages();
+    scrollToBottom(true, true);
 }
 
 function removeContext(id) {
@@ -113,7 +115,15 @@ function removeContext(id) {
 
 function toggleContextDetails(id) {
     const el = document.getElementById(`details-${id}`);
-    if (el) el.classList.toggle('open');
+    if (el) {
+        el.classList.toggle('open');
+
+        // If it's the latest item in history, scroll to bottom
+        const lastItem = aiPanel.history[aiPanel.history.length - 1];
+        if (lastItem && lastItem.id === id) {
+            setTimeout(() => scrollToBottom(true, true), 50);
+        }
+    }
 }
 
 // ── CONTEXT BUILDERS ──────────────────────────────────────────────────────────
@@ -236,7 +246,10 @@ function renderMessages() {
                 el.className = className;
                 el.innerHTML = `
                     <div class="ac-header">
-                        <span class="ac-label">${item.label}</span>
+                        <div class="ac-meta">
+                            <span class="ac-type-tag">${item.ctxType.toUpperCase()}</span>
+                            <span class="ac-label">${item.label}</span>
+                        </div>
                         <div class="ac-actions">
                             <button class="ac-btn toggle" onclick="toggleContextDetails(${item.id})" title="Toggle Details">
                                 <span class="ai-eye-icon"></span>
@@ -273,7 +286,45 @@ function renderMessages() {
         }
     });
 
-    container.scrollTop = container.scrollHeight;
+    scrollToBottom();
+    renderContextStatus();
+}
+
+function scrollToBottom(smooth = false, force = false) {
+    const container = $('ai-messages');
+    if (!container) return;
+
+    // Sticky Scroll Logic: Only scroll if already at bottom or forced
+    // Threshold of 100px to be considered "at bottom"
+    const threshold = 100;
+    const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+
+    if (force || isAtBottom) {
+        if (smooth) {
+            container.scrollTo({
+                top: container.scrollHeight,
+                behavior: 'smooth'
+            });
+        } else {
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+}
+
+function renderContextStatus() {
+    const statusEl = $('ai-context-status');
+    if (!statusEl) return;
+
+    const unsentCount = aiPanel.history.filter(h => h.type === 'ctx' && !h.isSent).length;
+    if (unsentCount > 0) {
+        statusEl.innerHTML = `
+            <span class="ai-sparkle-neon small"></span>
+            ${unsentCount} ${unsentCount === 1 ? 'item' : 'items'} will be added in next prompt
+        `;
+        statusEl.classList.add('visible');
+    } else {
+        statusEl.classList.remove('visible');
+    }
 }
 
 function getAttachmentIcon(type) {
@@ -305,7 +356,7 @@ function showTypingIndicator() {
         <div class="ai-typing"><span></span><span></span><span></span></div>
     `;
     container.appendChild(el);
-    container.scrollTop = container.scrollHeight;
+    scrollToBottom(false, true);
 }
 
 function removeTypingIndicator() {
@@ -327,6 +378,7 @@ async function sendAIMessage() {
     });
 
     appendMessage('user', text);
+    scrollToBottom(true, true);
 
     aiPanel.isTyping = true;
     $('ai-send-btn').disabled = true;
@@ -373,7 +425,7 @@ async function typewriterAppend(role, content) {
                 `;
             }
 
-            container.scrollTop = container.scrollHeight;
+            scrollToBottom();
 
             if (i >= content.length) {
                 clearInterval(timer);
@@ -422,6 +474,7 @@ function initAIPanel() {
         input.addEventListener('input', () => {
             input.style.height = 'auto';
             input.style.height = Math.min(input.scrollHeight, 190) + 'px';
+            scrollToBottom();
         });
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -429,6 +482,14 @@ function initAIPanel() {
                 sendAIMessage();
             }
         });
+    }
+
+    // ResizeObserver to handle content height changes automatically
+    const messages = $('ai-messages');
+    if (messages) {
+        new ResizeObserver(() => {
+            scrollToBottom();
+        }).observe(messages);
     }
 
     // Close dropdowns when clicking outside

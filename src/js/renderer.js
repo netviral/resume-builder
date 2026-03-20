@@ -199,8 +199,12 @@ function renderSectionContent(section, sIdx) {
               <td>
                 <strong contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col1', this.innerText)">${e.col1 || ''}</strong>
               </td>
-              <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col2', this.innerText)">${e.col2 || ''}</td>
-              <td contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col3', this.innerText)">${e.col3 || ''}</td>
+              <td style="width: 45%; padding-right: 1rem;">
+                <span contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col2', this.innerText)">${e.col2 || ''}</span>
+              </td>
+              <td style="text-align: right;">
+                <span contenteditable="${editMode}" onblur="updateEntryField(${sIdx}, ${eIdx}, 'col3', this.innerText)">${e.col3 || ''}</span>
+              </td>
               <td style="position:relative; width:0; padding:0">
                  ${editMode ? `<div class="entry-ctrl">
                     <button class="ai-send-entry-btn" title="Send Entry to AI" onclick="sendEntryToAI('${section.id}', ${eIdx})"></button>

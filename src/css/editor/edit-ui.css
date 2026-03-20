@@ -18,7 +18,7 @@ body.editing .section-wrapper {
 }
 
 body.editing .section-wrapper:hover {
-    background-image: linear-gradient(to right, transparent 65px, rgba(51, 65, 85, 0.04) 65px);
+    background-image: linear-gradient(to right, transparent 65px, rgba(51, 65, 85, 0.03) 65px);
     border-radius: 6px;
 }
 
@@ -91,7 +91,12 @@ body.editing .skills-grid>div {
 
 body.editing .entry:hover,
 body.editing .venture:hover {
-    background-image: linear-gradient(to left, transparent 60px, rgba(0, 0, 0, 0.01) 60px);
+    background-image: linear-gradient(to left, transparent 60px, rgba(51, 65, 85, 0.03) 60px);
+}
+
+/* Specific highlight for table rows as TRs don't support gradients well */
+body.editing .edu-table tr.entry:hover td:not(:last-child) {
+    background-color: rgba(51, 65, 85, 0.03);
 }
 
 /* Table specific override to keep buttons consistent and sticky */
@@ -129,8 +134,8 @@ body.editing .edu-table tr:hover .entry-ctrl {
     pointer-events: auto;
 }
 
-.entry-ctrl button,
-.bullet-ctrl button,
+.entry-ctrl button:not(.ai-send-entry-btn):not(.ai-send-section-btn),
+.bullet-ctrl button:not(.ai-send-entry-btn):not(.ai-send-section-btn),
 .del-inline {
     width: 24px;
     height: 24px;
@@ -149,8 +154,8 @@ body.editing .edu-table tr:hover .entry-ctrl {
     z-index: 101;
 }
 
-.entry-ctrl button:hover,
-.bullet-ctrl button:hover,
+.entry-ctrl button:not(.ai-send-entry-btn):not(.ai-send-section-btn):hover,
+.bullet-ctrl button:not(.ai-send-entry-btn):not(.ai-send-section-btn):hover,
 .del-inline:hover {
     background: #fee2e2 !important;
     color: var(--editor-danger) !important;
@@ -175,7 +180,7 @@ body.editing ul.two-col li {
 body.editing ul.bullets li:hover,
 body.editing ul.two-col li:hover,
 body.editing .skills-grid>div:hover {
-    background-image: linear-gradient(to left, transparent 60px, rgba(0, 0, 0, 0.025) 60px);
+    background-image: linear-gradient(to left, transparent 60px, rgba(51, 65, 85, 0.03) 60px);
     border-radius: 3px;
 }
 
