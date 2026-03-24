@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="src/css/editor/modals.css">
   <link rel="stylesheet" href="src/css/editor/print.css">
   <link rel="stylesheet" href="src/css/editor/ai-panel.css">
+  <link rel="stylesheet" href="src/css/editor/sidebar.css">
   <link rel="stylesheet" href="src/css/editor/switcher.css">
 </head>
 
@@ -26,6 +27,9 @@
 
   <!-- TOOLBAR -->
   <div id="toolbar">
+    <button class="hamburger-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Section Tree">
+      ☰
+    </button>
     <span class="tb-label">Resume Builder</span>
     <button class="tb-btn primary" id="toggle-edit-btn" onclick="toggleEdit()" title="Toggle edit mode">✏ Edit</button>
     <div class="tb-sep"></div>
@@ -37,6 +41,17 @@
     <button id="ai-toggle-btn" onclick="toggleAIPanel()" title="Open AI Assistant">
       ✦ AI Assistant
     </button>
+  </div>
+
+  <!-- LEFT SIDEBAR -->
+  <div id="sidebar-left">
+    <div class="sidebar-header">
+      <span class="sidebar-title">Outliner</span>
+      <button class="node-btn" onclick="toggleSidebar()" title="Close Sidebar">✕</button>
+    </div>
+    <div class="sidebar-content" id="sidebar-tree">
+      <!-- Populated by sidebar.js -->
+    </div>
   </div>
 
   <!-- EDITOR CONTROLS -->
@@ -79,10 +94,6 @@
       <span class="ai-panel-title"><span class="ai-sparkle-neon"></span> AI Resume Assistant</span>
       <button id="ai-panel-close" onclick="toggleAIPanel()" title="Close">✕</button>
     </div>
-
-
-
-
 
     <!-- Chat Messages -->
     <div id="ai-messages">
@@ -159,6 +170,7 @@
   <!-- Modular Editor Logic -->
   <script src="src/js/editor/state.js"></script>
   <script src="src/js/editor/core.js"></script>
+  <script src="src/js/editor/sidebar.js"></script>
   <script src="src/js/editor/settings.js"></script>
   <script src="src/js/editor/sections-crud.js"></script>
   <script src="src/js/editor/entries-crud.js"></script>

@@ -2,6 +2,11 @@ function renderResume() {
   if (!resumeData) return;
   renderHeader();
   renderSections();
+
+  // Refresh sidebar if it's open
+  if (typeof renderSidebar === 'function' && document.body.classList.contains('sidebar-open')) {
+    renderSidebar();
+  }
 }
 
 function renderHeader() {

@@ -76,6 +76,11 @@ function toggleAIPanel() {
     const btn = $('ai-toggle-btn');
 
     if (aiPanel.isOpen) {
+        // If opening AI panel, close sidebar if it was open
+        if (document.body.classList.contains('sidebar-open')) {
+            toggleSidebar();
+        }
+
         panel.classList.add('open');
         btn.classList.add('active');
         document.body.classList.add('ai-open');

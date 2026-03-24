@@ -63,8 +63,8 @@ function loadResumeData(newData) {
     history.undoStack = [];
     history.redoStack = [];
 
-    // Always hydrate to ensure latest mapping logic applies
-    if (newData.basics) {
+    // Hydrate if needed
+    if (newData.basics && !newData.sections) {
         resumeData = hydrateFromJRS(newData);
     } else {
         resumeData = JSON.parse(JSON.stringify(newData));

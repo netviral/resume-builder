@@ -1,0 +1,192 @@
+/* ── LEFT SIDEBAR (Section Tree) ── */
+#sidebar-left {
+    position: fixed;
+    top: 41px;
+    /* below toolbar */
+    left: 0;
+    width: 280px;
+    height: calc(100vh - 41px);
+    background: #0f1623;
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    font-family: 'Inter', sans-serif;
+    color: #e2e8f0;
+}
+
+#sidebar-left.open {
+    transform: translateX(0);
+}
+
+/* ── SIDEBAR HEADER ── */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.sidebar-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+/* ── TREE CONTENT ── */
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 8px;
+}
+
+.tree-node {
+    margin-bottom: 4px;
+}
+
+.node-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 13px;
+}
+
+.node-header:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.node-icon {
+    font-size: 12px;
+    width: 16px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.node-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.node-actions {
+    display: none;
+    gap: 4px;
+}
+
+.node-header:hover .node-actions {
+    display: flex;
+}
+
+.node-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.node-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* Tree Nesting Levels */
+.tree-children {
+    margin-left: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    display: none;
+}
+
+.tree-node.expanded>.tree-children {
+    display: block;
+}
+
+.tree-node.level-1>.node-header {
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+.tree-node.level-2>.node-header {
+    font-weight: 400;
+    color: #cbd5e1;
+    font-size: 12px;
+}
+
+.tree-node.level-3>.node-header {
+    font-weight: 300;
+    color: #94a3b8;
+    font-size: 11.5px;
+}
+
+.tree-node.level-4>.node-header {
+    font-weight: 300;
+    color: #64748b;
+    font-size: 10.5px;
+    font-style: italic;
+}
+
+/* ── LAYOUT PUSHING ── */
+body.sidebar-open #resume-wrap {
+    margin-left: 280px;
+}
+
+/* Floating Switcher Slide */
+body.sidebar-open .resume-switcher-dock {
+    left: 310px !important;
+    /* 280px sidebar + 30px margin */
+}
+
+/* Hamburger Trigger in toolbar */
+.hamburger-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* ── SIDEBAR HIGHLIGHT ── */
+@keyframes sidebar-pulse {
+    0% {
+        background-color: transparent;
+    }
+
+    30% {
+        background-color: rgba(59, 130, 246, 0.15);
+    }
+
+    100% {
+        background-color: transparent;
+    }
+}
+
+.sidebar-highlight {
+    animation: sidebar-pulse 2s ease-in-out;
+    border-radius: 4px;
+}
